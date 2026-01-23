@@ -1,0 +1,84 @@
+{
+  "stores": [
+    {
+      "id": "crate-barrel",
+      "name": "Crate & Barrel",
+      "url": "https://www.crateandbarrel.com/gift-registry/",
+      "description": "Home essentials and elegant dinnerware",
+      "items": [
+        {
+          "id": "1",
+          "name": "Stainless Steel Cookware Set",
+          "price": 299.99,
+          "image": "/placeholder.svg?height=200&width=200",
+          "purchased": false
+        },
+        {
+          "id": "2",
+          "name": "White Porcelain Dinnerware Set",
+          "price": 149.99,
+          "image": "/placeholder.svg?height=200&width=200",
+          "purchased": false
+        },
+        {
+          "id": "3",
+          "name": "Crystal Wine Glasses (Set of 4)",
+          "price": 79.99,
+          "image": "/placeholder.svg?height=200&width=200",
+          "purchased": false
+        }
+      ]
+    },
+    {
+      "id": "bloomingdales",
+      "name": "Bloomingdale's",
+      "url": "https://www.bloomingdales.com/registry/",
+      "description": "Luxury home and lifestyle",
+      "items": [
+        {
+          "id": "4",
+          "name": "Egyptian Cotton Sheet Set",
+          "price": 249.99,
+          "image": "/placeholder.svg?height=200&width=200",
+          "purchased": false
+        },
+        {
+          "id": "5",
+          "name": "Plush Bath Towel Set",
+          "price": 129.99,
+          "image": "/placeholder.svg?height=200&width=200",
+          "purchased": false
+        }
+      ]
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "url": "https://www.amazon.com/wedding/",
+      "description": "Everything for our new home",
+      "items": [
+        {
+          "id": "6",
+          "name": "Stand Mixer",
+          "price": 379.99,
+          "image": "/placeholder.svg?height=200&width=200",
+          "purchased": false
+        },
+        {
+          "id": "7",
+          "name": "Robot Vacuum",
+          "price": 299.99,
+          "image": "/placeholder.svg?height=200&width=200",
+          "purchased": false
+        },
+        {
+          "id": "8",
+          "name": "Espresso Machine",
+          "price": 499.99,
+          "image": "/placeholder.svg?height=200&width=200",
+          "purchased": false
+        }
+      ]
+    }
+  ]
+}
