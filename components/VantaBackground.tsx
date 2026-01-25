@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import * as THREE from 'three'
 // Import the specific effect you want (e.g., NET, BIRDS, WAVES, FOG)
+// @ts-ignore
 import FOG from 'vanta/dist/vanta.fog.min'
 
 export default function VantaBackground() {
