@@ -98,10 +98,7 @@ export function HeroSection() {
 
       <div className="relative z-10 text-center px-4">
         <GuestOnly
-          visitorFallback={
-            <p className="mt-12 text-lg md:text-xl font-light tracking-widest text-white/80">Coming Soon</p>
-          }
-        />
+          visitorFallback={<p className="mt-12 text-lg md:text-xl font-light tracking-widest text-white/80">Coming Soon</p>} children={undefined}        />
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
