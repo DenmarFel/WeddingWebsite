@@ -12,7 +12,7 @@ export function RegistrySection() {
   return (
     <section id="registry" className="py-24 md:py-32 px-4 bg-background">
       <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-6 font-serif text-balance">
+        <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-6  text-balance">
           Your presence is our greatest gift
         </h2>
         <p className="text-lg md:text-xl text-foreground/60 font-light max-w-xl mx-auto mb-16 leading-relaxed">

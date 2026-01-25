@@ -21,7 +21,7 @@ export function ContactSection() {
     return (
       <section id="contact" className="py-24 md:py-32 px-4 bg-secondary">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-4 font-serif">Message Sent</h2>
+          <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-4 ">Message Sent</h2>
           <p className="text-lg font-light text-muted-foreground">
             Thank you for reaching out. We'll get back to you soon!
           </p>
@@ -34,7 +34,7 @@ export function ContactSection() {
     <section id="contact" className="py-24 md:py-32 px-4 bg-secondary">
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6 font-serif text-balance">
+          <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6  text-balance">
             Questions? We'd love to hear from you
           </h2>
           <GuestOnly

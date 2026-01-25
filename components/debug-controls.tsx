@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { useAccess } from "@/contexts/access-context"
 import { useAudio } from "@/contexts/audio-context"
-import { useTheme } from "@/contexts/theme-context"
 
 /*
   DEBUG CONTROLS
@@ -17,7 +16,6 @@ const SHOW_DEBUG = true // Set to false to hide debug controls
 export function DebugControls() {
   const { accessLevel, resetAccess } = useAccess()
   const { volume, setVolume } = useAudio()
-  const { colorScheme, setColorScheme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
 
   if (!SHOW_DEBUG) return null
@@ -73,63 +71,6 @@ export function DebugControls() {
                 onChange={(e) => setVolume(Number(e.target.value) / 100)}
                 className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-accent"
               />
-            </div>
-
-            {/* Color Scheme Selector */}
-            <div className="bg-muted/50 p-3 rounded space-y-2">
-              <div className="text-muted-foreground mb-2">Color Scheme:</div>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  onClick={() => setColorScheme("default")}
-                  className={`py-2 px-3 rounded text-xs transition-colors ${
-                    colorScheme === "default"
-                      ? "bg-accent text-accent-foreground font-semibold"
-                      : "bg-background hover:bg-muted"
-                  }`}
-                >
-                  Default
-                </button>
-                <button
-                  onClick={() => setColorScheme("blush")}
-                  className={`py-2 px-3 rounded text-xs transition-colors ${
-                    colorScheme === "blush"
-                      ? "bg-accent text-accent-foreground font-semibold"
-                      : "bg-background hover:bg-muted"
-                  }`}
-                >
-                  Blush Rose
-                </button>
-                <button
-                  onClick={() => setColorScheme("sage")}
-                  className={`py-2 px-3 rounded text-xs transition-colors ${
-                    colorScheme === "sage"
-                      ? "bg-accent text-accent-foreground font-semibold"
-                      : "bg-background hover:bg-muted"
-                  }`}
-                >
-                  Sage Green
-                </button>
-                <button
-                  onClick={() => setColorScheme("lavender")}
-                  className={`py-2 px-3 rounded text-xs transition-colors ${
-                    colorScheme === "lavender"
-                      ? "bg-accent text-accent-foreground font-semibold"
-                      : "bg-background hover:bg-muted"
-                  }`}
-                >
-                  Lavender
-                </button>
-                <button
-                  onClick={() => setColorScheme("ocean")}
-                  className={`py-2 px-3 rounded text-xs transition-colors ${
-                    colorScheme === "ocean"
-                      ? "bg-accent text-accent-foreground font-semibold"
-                      : "bg-background hover:bg-muted"
-                  }`}
-                >
-                  Ocean Blue
-                </button>
-              </div>
             </div>
 
             {/* Reset Access */}

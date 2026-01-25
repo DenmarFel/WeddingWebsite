@@ -152,13 +152,6 @@
   }
 }
 
-/* Updated #title to use Roxborough CF Regular font */
-#title {
-  text-align: center;
-  max-width: 100%;
-  font-family: var(--font-roxborough);
-}
-
 .remove {
   display: inline-block;
   white-space: nowrap;
@@ -167,16 +160,11 @@
   /* line-height: 1; Prevents ghost height */
 }
 
-/* Specific sizing for the top and bottom lines */
-.subtitle {
-  font-size: 0.3em; /* Proportional to the names */
-  /* letter-spacing: 0.4em; */
-  /* font-weight: 300; */
-  /* opacity: 0.9; */
-  text-align: center;
-}
-
 /* Optional: Ensure the line height doesn't force height after text is gone */
 #title span.remove {
   transition: margin 0.5s ease;
+}
+
+#title-blur {
+  backdrop-filter: blur(12px);
 }

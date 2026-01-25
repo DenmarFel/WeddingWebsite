@@ -23,7 +23,7 @@ export function RsvpSection() {
         visitorFallback={
           <div className="text-center">
             <p className="text-sm uppercase tracking-[0.3em] text-foreground/50 mb-8">Please</p>
-            <div className="font-serif text-[8rem] md:text-[12rem] lg:text-[16rem] leading-none tracking-tight">
+            <div className=" text-[8rem] md:text-[12rem] lg:text-[16rem] leading-none tracking-tight">
               <div className="flex justify-center">
                 <span className="inline-block" style={{ marginRight: "-0.05em" }}>
                   R
@@ -45,7 +45,7 @@ export function RsvpSection() {
           <p className="text-sm uppercase tracking-[0.3em] text-foreground/50 mb-8">Please</p>
 
           {/* Large typographic RSVP */}
-          <div className="font-serif text-[8rem] md:text-[12rem] lg:text-[16rem] leading-none tracking-tight mb-12">
+          <div className=" text-[8rem] md:text-[12rem] lg:text-[16rem] leading-none tracking-tight mb-12">
             <div className="flex justify-center">
               <span className="inline-block" style={{ marginRight: "-0.05em" }}>
                 R

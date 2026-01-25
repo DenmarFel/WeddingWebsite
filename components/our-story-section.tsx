@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 const STORY_MILESTONES = [
   {
-    image: "/couple-laughing-together-candid-romantic.jpg",
+    image: "/high-school.jpeg",
     caption: "from humble beginnings in 9th grade English...",
     year: "2014",
   },
@@ -79,16 +79,16 @@ export function OurStorySection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="story" className="relative bg-background">
+    <section ref={sectionRef} id="story" className="relative">
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-8 py-24">
-        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl text-center max-w-4xl leading-tight mb-12 text-balance">
-          A day over a decade in the making ...
+        <h2 className=" text-4xl md:text-6xl lg:text-7xl text-center max-w-4xl leading-tight mb-12 text-balance">
+          Chapters of a life built together, one page at a time...
         </h2>
         {/* Simple pipe/line indicator instead of arrow */}
         <div className="text-foreground/30 text-4xl font-extralight">|</div>
       </div>
 
-      <div ref={containerRef} className="h-screen w-full overflow-hidden bg-background">
+      <div ref={containerRef} className="h-screen w-full overflow-hidden">
         <div
           ref={slidesRef}
           className="flex h-full items-center"
@@ -109,7 +109,7 @@ export function OurStorySection() {
                 />
               </div>
 
-              <p className="mt-8 font-serif text-2xl md:text-3xl text-foreground/80 text-center italic">
+              <p className="mt-8  text-2xl md:text-3xl text-foreground/80 text-center italic">
                 {milestone.caption}
               </p>
             </div>

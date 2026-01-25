@@ -5,7 +5,6 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { AccessProvider } from "@/contexts/access-context"
 import { AudioProvider } from "@/contexts/audio-context"
-import { ThemeProvider } from "@/contexts/theme-context"
 import { DebugControls } from "@/components/debug-controls"
 import { AudioVisualizer } from "@/components/audio-visualizer"
 
@@ -22,7 +21,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Charlene & Denmar | May 30, 2026",
-  description: "Join us as we celebrate our wedding in San Clemente, California",
+  description: "Join us as we celebrate our wedding in San Clemente, California"
 }
 
 export const viewport: Viewport = {
@@ -37,15 +36,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${cormorant.variable} ${inter.variable} antialiased`}>
-        <ThemeProvider>
-          <AccessProvider>
-            <AudioProvider>
-              {children}
-              <AudioVisualizer />
-              <DebugControls />
-            </AudioProvider>
-          </AccessProvider>
-        </ThemeProvider>
+        <AccessProvider>
+          <AudioProvider>
+            {children}
+            <AudioVisualizer />
+            <DebugControls />
+          </AudioProvider>
+        </AccessProvider>
         <Analytics />
       </body>
     </html>

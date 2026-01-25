@@ -25,46 +25,58 @@ export function useAudio() {
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
-  const [volume, setVolumeState] = useState(0.4)
+  const [volume, setVolumeState] = useState(0.05) // Set a softer default
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioContextRef = useRef<AudioContext | null>(null)
+  const gainNodeRef = useRef<GainNode | null>(null) // Ref to control volume ramps
   const { accessLevel } = useAccess()
 
   useEffect(() => {
-    // Only initialize audio after user has selected access level
     if (!accessLevel || typeof window === "undefined") return
 
-    const audio = new Audio("/images/ana-20done-20-20so-20high-20school-20-28wedding-20violin-20version-29.mp3")
+    const audio = new Audio("/audio/so-high-school-violin.webm")
     audio.loop = true
-    audio.volume = volume
+    // We set the base audio element volume to 1 and control 
+    // the "real" volume via the GainNode for smoother transitions.
+    audio.volume = 1 
     audioRef.current = audio
 
-    // Create Web Audio API context for visualization
     const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)()
     audioContextRef.current = audioCtx
 
     const source = audioCtx.createMediaElementSource(audio)
     const analyserNode = audioCtx.createAnalyser()
+    const gainNode = audioCtx.createGain() // The "Volume Knob"
+    
     analyserNode.fftSize = 256
+    gainNodeRef.current = gainNode
 
-    source.connect(analyserNode)
+    // Route: Audio -> Gain (Volume) -> Analyser (Visuals) -> Speakers
+    source.connect(gainNode)
+    gainNode.connect(analyserNode)
     analyserNode.connect(audioCtx.destination)
 
-    // Autoplay with user interaction fallback
+    // Start the gain at 0 (silent)
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime)
+
     const playAudio = async () => {
       try {
         await audio.play()
         setIsPlaying(true)
+        
+        // Smoothly ramp up to the desired volume over 5 seconds
+        gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 5)
       } catch (error) {
-        console.log("[v0] Audio autoplay blocked, waiting for user interaction")
-        // Add click listener to start on first interaction
+        console.log("[Wedding-Site] Autoplay blocked, waiting for interaction")
         const startOnClick = async () => {
           try {
+            if (audioCtx.state === 'suspended') await audioCtx.resume()
             await audio.play()
             setIsPlaying(true)
+            gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 5)
             document.removeEventListener("click", startOnClick)
           } catch (e) {
-            console.error("[v0] Failed to start audio:", e)
+            console.error("Failed to start audio:", e)
           }
         }
         document.addEventListener("click", startOnClick)
@@ -80,19 +92,29 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         audioContextRef.current.close()
       }
     }
-  }, [accessLevel, volume])
+  }, [accessLevel]) // Only re-run if access level changes
 
   const toggleMute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = !isMuted
+    if (audioRef.current && gainNodeRef.current && audioContextRef.current) {
+      const ctx = audioContextRef.current
+      if (!isMuted) {
+        // Fade out to 0 over 0.5s before muting
+        gainNodeRef.current.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5)
+        setTimeout(() => { audioRef.current!.muted = true }, 500)
+      } else {
+        // Unmute and fade back in
+        audioRef.current.muted = false
+        gainNodeRef.current.gain.linearRampToValueAtTime(volume, ctx.currentTime + 0.5)
+      }
       setIsMuted(!isMuted)
     }
   }
 
   const setVolume = (newVolume: number) => {
     setVolumeState(newVolume)
-    if (audioRef.current) {
-      audioRef.current.volume = newVolume
+    if (gainNodeRef.current && audioContextRef.current) {
+      // Immediate volume change if the user slides a volume bar
+      gainNodeRef.current.gain.setValueAtTime(newVolume, audioContextRef.current.currentTime)
     }
   }
 
