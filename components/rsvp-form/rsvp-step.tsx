@@ -41,7 +41,7 @@ export function RsvpStep({ questions, formData, errors, onUpdate }: RsvpStepProp
               value={(value as string) || ""}
               onChange={(e) => onUpdate(question.id, e.target.value)}
               placeholder={question.placeholder}
-              className="bg-background border-border"
+              className="border-border"
             />
             {errorElement}
           </div>
@@ -58,7 +58,7 @@ export function RsvpStep({ questions, formData, errors, onUpdate }: RsvpStepProp
               max={question.max}
               value={(value as number) || question.min || 1}
               onChange={(e) => onUpdate(question.id, Number.parseInt(e.target.value, 10))}
-              className="bg-background border-border w-24"
+              className="border-border w-24"
             />
             {errorElement}
           </div>
@@ -73,7 +73,7 @@ export function RsvpStep({ questions, formData, errors, onUpdate }: RsvpStepProp
               value={(value as string) || ""}
               onChange={(e) => onUpdate(question.id, e.target.value)}
               placeholder={question.placeholder}
-              className="bg-background border-border resize-none"
+              className="border-border resize-none"
               rows={3}
             />
             {errorElement}
@@ -85,7 +85,7 @@ export function RsvpStep({ questions, formData, errors, onUpdate }: RsvpStepProp
           <div key={question.id} className="space-y-2">
             {labelElement}
             <Select value={(value as string) || ""} onValueChange={(val) => onUpdate(question.id, val)}>
-              <SelectTrigger className="bg-background border-border">
+              <SelectTrigger className="border-border">
                 <SelectValue placeholder={question.options?.[0]?.label || "Select..."} />
               </SelectTrigger>
               <SelectContent>

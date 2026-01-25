@@ -57,13 +57,13 @@ export function ContactSection() {
               <Label htmlFor="contactName" className="text-sm tracking-wider uppercase">
                 Name
               </Label>
-              <Input id="contactName" required className="bg-background border-border" />
+              <Input id="contactName" required className="border-border" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="contactEmail" className="text-sm tracking-wider uppercase">
                 Email
               </Label>
-              <Input id="contactEmail" type="email" required className="bg-background border-border" />
+              <Input id="contactEmail" type="email" required className="border-border" />
             </div>
           </div>
 
@@ -71,7 +71,7 @@ export function ContactSection() {
             <Label htmlFor="subject" className="text-sm tracking-wider uppercase">
               Subject
             </Label>
-            <Input id="subject" required className="bg-background border-border" />
+            <Input id="subject" required className="border-border" />
           </div>
 
           <div className="space-y-2">
@@ -82,7 +82,7 @@ export function ContactSection() {
               id="contactMessage"
               required
               placeholder="Your message..."
-              className="bg-background border-border resize-none"
+              className="border-border resize-none"
               rows={5}
             />
           </div>

@@ -10,7 +10,7 @@ const REGISTRY_LINKS = [
 
 export function RegistrySection() {
   return (
-    <section id="registry" className="py-24 md:py-32 px-4 bg-background">
+    <section id="registry" className="py-24 md:py-32 px-4">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-6  text-balance">
           Your presence is our greatest gift

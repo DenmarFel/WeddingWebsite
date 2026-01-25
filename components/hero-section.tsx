@@ -79,7 +79,7 @@ export function HeroSection() {
       <div 
         id="title" 
         style={{ top: '10%' }} 
-        className="flex flex-col items-center justify-center text-[clamp(2rem,8vw,5rem)] px-6 w-full max-w-[100vw] font-medium tracking-wide z-40 text-white absolute [--target-size:2.5rem]"
+        className="flex flex-col items-center justify-center text-[clamp(2.5rem,6vw,6rem)] px-3 w-full max-w-[100vw] font-medium tracking-wide z-40 text-white absolute [--target-size:2.5rem]"
       >
         <div className="remove text-lg mt-2">The Wedding of</div>
         <div className="flex">
@@ -89,7 +89,7 @@ export function HeroSection() {
           <span className="remove">&nbsp;</span>
           D<span className="remove">enmar</span>
         </div>
-        <div className="remove text-[1rem] mt-2">Saturday, May 30, 2026 | San Clemente, CA</div>
+        <div className="remove text-lg mt-2">Saturday, May 30, 2026 | San Clemente, CA</div>
       </div>
 
       <div className="absolute bottom-10 right-6 md:bottom-12 md:right-12 z-30">
