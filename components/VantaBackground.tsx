@@ -5,7 +5,7 @@ import * as THREE from 'three'
 // @ts-ignore
 import FOG from 'vanta/dist/vanta.fog.min'
 
-export default function VantaBackground() {
+export function VantaBackground() {
   const [vantaEffect, setVantaEffect] = useState<any>(null)
   const vantaRef = useRef<HTMLDivElement>(null)
 

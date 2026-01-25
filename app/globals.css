@@ -168,3 +168,7 @@
 #title-blur {
   backdrop-filter: blur(12px);
 }
+
+.story-caption {
+  font-family: var(--font-sans);
+}

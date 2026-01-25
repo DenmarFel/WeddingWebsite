@@ -7,6 +7,7 @@ import { AccessProvider } from "@/contexts/access-context"
 import { AudioProvider } from "@/contexts/audio-context"
 import { DebugControls } from "@/components/debug-controls"
 import { AudioVisualizer } from "@/components/audio-visualizer"
+import { VantaBackground } from "@/components/VantaBackground"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${cormorant.variable} ${inter.variable} antialiased`}>
+        <VantaBackground />
         <AccessProvider>
           <AudioProvider>
             {children}

@@ -1,22 +1,8 @@
 "use client"
 import Link from "next/link"
-import { useState } from "react"
 import { GuestOnly } from "./guest-only"
 
 export function RsvpSection() {
-  const [submitted, setSubmitted] = useState(false)
-
-  if (submitted) {
-    return (
-      <section id="rsvp" className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center">
-          <h2 className="text-4xl md:text-6xl font-light tracking-wide mb-6">Thank You</h2>
-          <p className="text-xl font-light text-foreground/60">We can't wait to celebrate with you!</p>
-        </div>
-      </section>
-    )
-  }
-
   return (
     <section id="rsvp" className="min-h-screen flex items-center justify-center px-4">
       <GuestOnly

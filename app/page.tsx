@@ -12,7 +12,6 @@ import { RegistrySection } from "@/components/registry-section"
 import { FaqSection } from "@/components/faq-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
-import VantaBackground from "@/components/VantaBackground"
 
 export default function WeddingPage() {
   const { accessLevel } = useAccess()
@@ -25,13 +24,12 @@ export default function WeddingPage() {
   // Show main site once access is granted
   return (
     <main className="min-h-screen">
-      <VantaBackground />
       <Navigation />
       <HeroSection />
       <OurStorySection />
       <DetailsSection />
-      <GallerySection />
       <RsvpSection />
+      <GallerySection />
       <RegistrySection />
       <FaqSection />
       <ContactSection />

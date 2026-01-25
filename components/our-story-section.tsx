@@ -109,7 +109,7 @@ export function OurStorySection() {
                 />
               </div>
 
-              <p className="mt-8  text-2xl md:text-3xl text-foreground/80 text-center italic">
+              <p className="story-caption mt-8 text-xl text-foreground/80 ">
                 {milestone.caption}
               </p>
             </div>

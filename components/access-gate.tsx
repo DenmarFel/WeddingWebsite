@@ -45,7 +45,7 @@ export function AccessGate() {
   return (
     <div
       id="access-gate"
-      className={`fixed inset-0 z-50 bg-background flex items-center justify-center transition-all duration-500 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-500 ${
         isAnimating ? "opacity-0" : "opacity-100"
       }`}
     >

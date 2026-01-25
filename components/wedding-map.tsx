@@ -21,7 +21,7 @@ const VENUE = {
   lat: 33.4295,
   lng: -117.6193,
   googleMapsUrl: "https://maps.app.goo.gl/dLJuNJ3TYYee6Gzk9",
-  appleMapsUrl: "https://maps.apple.com/?address=2316%20Avenida%20Granada,%20San%20Clemente,%20CA%2092672",
+  appleMapsUrl: "https://maps.apple/p/e.iBFU6Y9hwCJ8",
 }
 
 export function WeddingMap() {
