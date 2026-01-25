@@ -29,10 +29,10 @@ export default function WeddingPage() {
       <OurStorySection />
       <DetailsSection />
       <RsvpSection />
-      <GallerySection />
+      {/* <GallerySection /> */}
       <RegistrySection />
       <FaqSection />
-      <ContactSection />
+      {/* <ContactSection /> */}
       <Footer />
     </main>
   )
