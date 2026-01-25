@@ -1,11 +1,13 @@
 "use client"
 
-import { RsvpForm } from "@/components/rsvp-form/rsvp-form"
+import { HouseholdRsvpForm } from "@/components/rsvp-form/household-rsvp-form"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { useAccess } from "@/contexts/access-context"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { Navigation } from "@/components/navigation"
+import { StickyHeader } from "@/components/sticky-header"
 
 export default function RsvpPage() {
   const { isAuthenticated, accessLevel } = useAccess()
@@ -34,24 +36,21 @@ export default function RsvpPage() {
 
   return (
     <main className="min-h-screen">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link
-            href="/#rsvp"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm tracking-wider uppercase font-light">Back</span>
-          </Link>
-          <span className="text-xl font-light tracking-widest">C & D</span>
-          <div className="w-16" />
-        </div>
-      </header>
+      <StickyHeader startFixed={true} />
+      {/* Back button - positioned to not conflict with sticky header */}
+      <div className="fixed top-0 left-4 z-[60] h-[64px] max-w-4xl mx-auto flex items-center justify-center mix-blend-difference hover:scale-110">
+        <Link
+          href="/#rsvp"
+          className="inline-flex items-center gap-2 text-white transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm tracking-wider uppercase font-light">Back</span>
+        </Link>
+      </div>
 
       {/* RSVP Form */}
       <div className="pt-24 pb-16 px-4">
-        <RsvpForm />
+        <HouseholdRsvpForm />
       </div>
     </main>
   )

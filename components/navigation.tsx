@@ -23,7 +23,7 @@ export function Navigation() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed top-0 left-4 z-[60] h-[64px] w-12 flex items-center justify-center bg-transparent border-none mix-blend-difference cursor-pointer rounded-full hover:scale-110 transition-all duration-300"
+          className="fixed top-0 left-4 z-[60] h-[64px] w-12 flex items-center justify-center border-none mix-blend-difference cursor-pointer rounded-full hover:scale-110 transition-all duration-300"
           aria-label="Open menu"
         >
           <Menu className="w-6 h-6 text-white" />
