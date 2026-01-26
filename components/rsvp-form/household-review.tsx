@@ -6,17 +6,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import type { Guest, GuestResponse, Household } from "./rsvp-types"
 
-interface GuestContactInfo {
-  email: string
-  phone: string
-}
-
 interface HouseholdReviewProps {
   household: Household
   selectedGuests: Guest[]
   isAttending: boolean
   responses: Record<string, Partial<GuestResponse>>
-  contactUpdates: Record<string, GuestContactInfo>
   submittedBy: Guest
   onSubmit: (message: string) => void
   onBack: () => void
@@ -27,7 +21,6 @@ export function HouseholdReview({
   selectedGuests,
   isAttending,
   responses,
-  contactUpdates,
   submittedBy,
   onSubmit,
   onBack
@@ -66,7 +59,6 @@ export function HouseholdReview({
         <h3 className="font-medium">Guest Details</h3>
         {selectedGuests.map((guest) => {
           const response = responses[guest.id] || {}
-          const contactInfo = contactUpdates[guest.id] || {}
           return (
             <div key={guest.id} className="border rounded-md p-4">
               <h4 className="font-medium mb-3">
@@ -74,19 +66,6 @@ export function HouseholdReview({
                 {guest.id === submittedBy.id && " (You)"}
               </h4>
               
-              {/* Contact Information */}
-              <div className="mb-4 pb-3 border-b">
-                <h5 className="text-sm font-medium mb-2">Contact Information</h5>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <strong>Email:</strong> {contactInfo.email || "Not provided"}
-                  </div>
-                  <div>
-                    <strong>Phone:</strong> {contactInfo.phone || "Not provided"}
-                  </div>
-                </div>
-              </div>
-
               {/* Dietary Information (only if attending) */}
               {isAttending && (
                 <div className="grid grid-cols-1 gap-3 text-sm">
@@ -133,7 +112,6 @@ export function HouseholdReview({
         <ul className="space-y-1 text-muted-foreground">
           <li>• You can update your RSVP by returning to this form anytime before the deadline</li>
           <li>• Anyone not included in this RSVP can still submit their own response</li>
-          <li>• Contact information will be updated in our records</li>
           <li>• If you have questions, please contact us directly</li>
         </ul>
       </div>

@@ -11,11 +11,6 @@ import type { Guest, Household, GuestResponse, HouseholdRsvpData } from "./rsvp-
 
 type FormStep = "lookup" | "selection" | "preferences" | "review" | "confirmation"
 
-interface GuestContactInfo {
-  email: string
-  phone: string
-}
-
 export function HouseholdRsvpForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>("lookup")
   const [currentGuest, setCurrentGuest] = useState<Guest | null>(null)
@@ -23,7 +18,6 @@ export function HouseholdRsvpForm() {
   const [selectedGuestIds, setSelectedGuestIds] = useState<string[]>([])
   const [isAttending, setIsAttending] = useState(false)
   const [individualResponses, setIndividualResponses] = useState<Record<string, Partial<GuestResponse>>>({})
-  const [contactUpdates, setContactUpdates] = useState<Record<string, GuestContactInfo>>({})
   const [isSubmitted, setIsSubmitted] = useState(false)
 
   const selectedGuests = selectedGuestIds
@@ -36,10 +30,9 @@ export function HouseholdRsvpForm() {
     setCurrentStep("selection")
   }
 
-  const handleSelectionComplete = (guestIds: string[], attending: boolean, contactUpdates: Record<string, { email: string; phone: string }>) => {
+  const handleSelectionComplete = (guestIds: string[], attending: boolean) => {
     setSelectedGuestIds(guestIds)
     setIsAttending(attending)
-    setContactUpdates(contactUpdates)
     
     // Initialize responses for selected guests
     const initialResponses: Record<string, Partial<GuestResponse>> = {}
@@ -86,11 +79,9 @@ export function HouseholdRsvpForm() {
     try {
       // Here you would send to your backend API
       console.log("Submitting RSVP:", submissionData)
-      console.log("Contact updates:", contactUpdates)
       
       // For now, just store in localStorage
       localStorage.setItem("household-rsvp-submitted", JSON.stringify(submissionData))
-      localStorage.setItem("contact-updates", JSON.stringify(contactUpdates))
       
       setIsSubmitted(true)
       setCurrentStep("confirmation")
@@ -107,7 +98,6 @@ export function HouseholdRsvpForm() {
     setSelectedGuestIds([])
     setIsAttending(false)
     setIndividualResponses({})
-    setContactUpdates({})
   }
 
   const handleBackToSelection = () => {
@@ -171,7 +161,6 @@ export function HouseholdRsvpForm() {
             selectedGuests={selectedGuests}
             isAttending={isAttending}
             responses={individualResponses}
-            contactUpdates={contactUpdates}
             submittedBy={currentGuest}
             onSubmit={handleSubmit}
             onBack={isAttending ? handleBackToPreferences : handleBackToSelection}

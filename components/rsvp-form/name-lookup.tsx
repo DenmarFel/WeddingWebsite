@@ -137,11 +137,6 @@ export function NameLookup({ onGuestSelected }: NameLookupProps) {
                         {formatHouseholdDisplayName(result.household)}
                       </div>
                     )}
-                    {result.guest.email && (
-                      <div className="text-sm text-muted-foreground">
-                        {result.guest.email}
-                      </div>
-                    )}
                   </Label>
                 </div>
               ))}
