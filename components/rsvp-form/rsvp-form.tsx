@@ -280,7 +280,7 @@ export function RsvpForm() {
       {/* Title */}
       <div className="text-center mb-8">
         <h1 className="text-3xl md:text-4xl font-light tracking-wide mb-2">RSVP</h1>
-        <p className="text-muted-foreground font-light">Please respond by April 30, 2026</p>
+        <p className="text-muted-foreground font-light">Please respond by April 17, 2026</p>
       </div>
 
       {/* Progress */}

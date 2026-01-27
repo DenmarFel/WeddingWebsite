@@ -69,6 +69,6 @@ export function canGuestRsvpForHousehold(guestId: string, household: Household):
  * Format household display name for disambiguation
  */
 export function formatHouseholdDisplayName(household: Household): string {
-  const guestNames = household.guests.map(g => g.firstName).join(', ')
-  return `Household: ${guestNames}`
+  const guestNames = household.guests.map(g => `${g.firstName} ${g.lastName}`).join(', ')
+  return `${guestNames}`
 }

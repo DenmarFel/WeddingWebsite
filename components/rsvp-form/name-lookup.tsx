@@ -132,11 +132,11 @@ export function NameLookup({ onGuestSelected }: NameLookupProps) {
                     <div className="font-medium">
                       {result.guest.firstName} {result.guest.lastName}
                     </div>
-                    {result.isAmbiguous && (
+                    {/* {result.isAmbiguous && (
                       <div className="text-sm text-muted-foreground">
                         {formatHouseholdDisplayName(result.household)}
                       </div>
-                    )}
+                    )} */}
                   </Label>
                 </div>
               ))}
