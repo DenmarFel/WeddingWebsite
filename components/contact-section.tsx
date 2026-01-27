@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { GuestOnly } from "./guest-only"
 
 export function ContactSection() {
   const [submitted, setSubmitted] = useState(false)
@@ -37,15 +36,9 @@ export function ContactSection() {
           <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6  text-balance">
             Questions? We'd love to hear from you
           </h2>
-          <GuestOnly
-            visitorFallback={
-              <p className="text-base font-light text-muted-foreground">For general inquiries about the wedding.</p>
-            }
-          >
-            <p className="text-base font-light text-muted-foreground">
-              Have questions about the venue, accommodations, or anything else? Drop us a message.
-            </p>
-          </GuestOnly>
+          <p className="text-base font-light text-muted-foreground">
+            Have questions about the venue, accommodations, or anything else? Drop us a message.
+          </p>
         </div>
 
         <form

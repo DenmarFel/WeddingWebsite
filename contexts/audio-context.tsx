@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { createContext, useContext, useState, useEffect, useRef } from "react"
-import { useAccess } from "./access-context"
 
 interface AudioContextType {
   isPlaying: boolean
@@ -30,10 +29,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioContextRef = useRef<AudioContext | null>(null)
   const gainNodeRef = useRef<GainNode | null>(null) // Ref to control volume ramps
-  const { accessLevel } = useAccess()
 
   useEffect(() => {
-    if (!accessLevel || typeof window === "undefined") return
+    if (typeof window === "undefined") return
 
     const audio = new Audio("/audio/so-high-school-violin.webm")
     audio.loop = true
@@ -132,7 +130,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         audioContextRef.current.close()
       }
     }
-  }, [accessLevel]) // Only re-run if access level changes
+  }, []) // Remove accessLevel dependency
 
   const toggleMute = () => {
     if (audioRef.current && gainNodeRef.current && audioContextRef.current) {

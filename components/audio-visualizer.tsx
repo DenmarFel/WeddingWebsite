@@ -2,18 +2,15 @@
 
 import { useEffect, useRef } from "react"
 import { useAudio } from "@/contexts/audio-context"
-import { useAccess } from "@/contexts/access-context"
 
 export function AudioVisualizer() {
   const { isPlaying, isMuted, toggleMute, resumeAudio } = useAudio()
-  const { accessLevel } = useAccess()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef<number | undefined>(undefined)
   const timeRef = useRef<number>(0)
 
   useEffect(() => {
-    // Don't show visualizer until user has entered the site
-    if (!accessLevel || !canvasRef.current) return
+    if (!canvasRef.current) return
 
     const canvas = canvasRef.current
     const ctx = canvas.getContext("2d")
@@ -93,10 +90,7 @@ export function AudioVisualizer() {
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [isPlaying, isMuted, accessLevel])
-
-  // Don't render until user has entered the site
-  if (!accessLevel) return null
+  }, [isPlaying, isMuted])
 
   return (
     <button

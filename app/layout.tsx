@@ -3,9 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Cormorant_Garamond, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { AccessProvider } from "@/contexts/access-context"
 import { AudioProvider } from "@/contexts/audio-context"
-import { DebugControls } from "@/components/debug-controls"
 import { AudioVisualizer } from "@/components/audio-visualizer"
 import { VantaBackground } from "@/components/VantaBackground"
 
@@ -38,13 +36,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${cormorant.variable} ${inter.variable} antialiased`}>
         <VantaBackground />
-        <AccessProvider>
-          <AudioProvider>
-            {children}
-            <AudioVisualizer />
-            <DebugControls />
-          </AudioProvider>
-        </AccessProvider>
+        <AudioProvider>
+          {children}
+          <AudioVisualizer />
+        </AudioProvider>
         <Analytics />
       </body>
     </html>

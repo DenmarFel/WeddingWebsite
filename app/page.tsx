@@ -1,7 +1,5 @@
 "use client"
 
-import { useAccess } from "@/contexts/access-context"
-import { AccessGate } from "@/components/access-gate"
 import { HeroSection } from "@/components/hero-section"
 import { Navigation } from "@/components/navigation"
 import { OurStorySection } from "@/components/our-story-section"
@@ -14,14 +12,6 @@ import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 
 export default function WeddingPage() {
-  const { accessLevel } = useAccess()
-
-  // Show gate if no access level is set
-  if (!accessLevel) {
-    return <AccessGate />
-  }
-
-  // Show main site once access is granted
   return (
     <main className="min-h-screen">
       <Navigation />

@@ -1,5 +1,4 @@
 import { WeddingMap } from "./wedding-map"
-import { GuestOnly } from "./guest-only"
 
 export function DetailsSection() {
   return (
@@ -56,24 +55,12 @@ export function DetailsSection() {
           </footer>
         </div>
 
-        {/* GUEST LOGIC & MAP (Structure remains as you had it) */}
-        <GuestOnly
-          visitorFallback={
-            <div className="text-center py-12 max-w-md mx-auto border border-dashed border-foreground/10 rounded-xl">
-              <p className="text-base text-foreground/70 mb-2 font-serif italic">Details available to invited guests</p>
-              <p className="text-[0.75rem] uppercase tracking-widest text-foreground/40">Please enter your guest password to view</p>
-            </div>
-          }
-        >
-          <div className="max-w-3xl mx-auto">
-            {/* Map */}
-            <div>
-              <WeddingMap />
-            </div>
-            
-            {/* Any extra GuestOnly content can go here */}
+        {/* MAP */}
+        <div className="max-w-3xl mx-auto">
+          <div>
+            <WeddingMap />
           </div>
-        </GuestOnly>
+        </div>
         
       </div>
     </section>
