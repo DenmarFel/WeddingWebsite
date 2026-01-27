@@ -5,7 +5,7 @@ import { useAudio } from "@/contexts/audio-context"
 import { useAccess } from "@/contexts/access-context"
 
 export function AudioVisualizer() {
-  const { isMuted, toggleMute } = useAudio()
+  const { isPlaying, isMuted, toggleMute, resumeAudio } = useAudio()
   const { accessLevel } = useAccess()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef<number | undefined>(undefined)
@@ -19,8 +19,29 @@ export function AudioVisualizer() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
+    const drawStaticBars = () => {
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      // Draw 5 static bars at minimum height when paused/muted
+      const barCount = 5
+      const barWidth = 2
+      const gap = 2
+      const startX = 0
+      const minHeight = 8
+
+      for (let i = 0; i < barCount; i++) {
+        const x = startX + i * (barWidth + gap)
+        const y = (24 - minHeight) / 2
+        ctx.fillRect(x, y, barWidth, minHeight)
+      }
+    }
+
     const draw = (timestamp: number) => {
-      animationRef.current = requestAnimationFrame(draw)
+      // Only continue animation if playing and not muted
+      if (isPlaying && !isMuted) {
+        animationRef.current = requestAnimationFrame(draw)
+      }
 
       if (!timeRef.current) timeRef.current = timestamp
       const elapsed = timestamp - timeRef.current
@@ -30,7 +51,7 @@ export function AudioVisualizer() {
 
       // Draw 5 bars with animated heights
       const barCount = 5
-      const barWidth = 3
+      const barWidth = 2
       const gap = 2
       const startX = 0
 
@@ -41,38 +62,56 @@ export function AudioVisualizer() {
         const minHeight = 8
         const maxHeight = 20
 
-        // When muted, bars stay at minimum height
-        const targetHeight = isMuted
+        // When muted OR not playing, bars stay at minimum height
+        const targetHeight = (isMuted || !isPlaying)
           ? minHeight
           : minHeight + (Math.sin(elapsed * speed + phase) * 0.5 + 0.5) * (maxHeight - minHeight)
 
         const x = startX + i * (barWidth + gap)
         const y = (24 - targetHeight) / 2
 
-        // Use white for perfect mix-blend-difference logic
-        // ctx.fillStyle = "#ffffff"
         ctx.fillRect(x, y, barWidth, targetHeight)
       }
     }
 
-    draw(0)
+    // Cancel any existing animation
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current)
+      animationRef.current = undefined
+    }
+
+    if (isPlaying && !isMuted) {
+      // Start animation if playing and not muted
+      draw(0)
+    } else {
+      // Draw static bars if paused or muted
+      drawStaticBars()
+    }
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [isMuted, accessLevel])
+  }, [isPlaying, isMuted, accessLevel])
 
   // Don't render until user has entered the site
   if (!accessLevel) return null
 
   return (
     <button
-      onClick={toggleMute}
+      onClick={() => {
+        if (!isPlaying) {
+          // If audio is paused, resume it
+          resumeAudio()
+        } else {
+          // If audio is playing, toggle mute
+          toggleMute()
+        }
+      }}
       className="fixed top-0 right-6 z-[60] h-[64px] flex items-center justify-center bg-transparent border-none mix-blend-difference nav-button cursor-pointer outline-none"
-      aria-label={isMuted ? "Unmute music" : "Mute music"}
-      title={isMuted ? "Click to unmute" : "Click to mute"}
+      aria-label={!isPlaying ? "Resume music" : (isMuted ? "Unmute music" : "Mute music")}
+      title={!isPlaying ? "Click to resume" : (isMuted ? "Click to unmute" : "Click to mute")}
     >
       {/* Canvas Visualizer */}
       <canvas ref={canvasRef} width="28" height="24" className="transition-opacity duration-300 invert" />

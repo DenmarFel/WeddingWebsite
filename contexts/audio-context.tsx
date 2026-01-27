@@ -10,6 +10,7 @@ interface AudioContextType {
   volume: number
   toggleMute: () => void
   setVolume: (volume: number) => void
+  resumeAudio: () => void
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined)
@@ -83,9 +84,48 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
+    // Page visibility change handler
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Page is hidden (user switched tabs, minimized browser, etc.)
+        if (audio && !audio.paused) {
+          audio.pause()
+          setIsPlaying(false)
+        }
+      }
+      // Note: We don't auto-resume when page becomes visible
+      // User needs to manually start music again
+    }
+
+    // Page unload handler (for mobile when closing browser)
+    const handleBeforeUnload = () => {
+      if (audio && !audio.paused) {
+        audio.pause()
+        setIsPlaying(false)
+      }
+    }
+
+    // Blur handler (when window loses focus)
+    const handleBlur = () => {
+      if (audio && !audio.paused) {
+        audio.pause()
+        setIsPlaying(false)
+      }
+    }
+
+    // Add event listeners for page/tab changes
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    window.addEventListener("beforeunload", handleBeforeUnload)
+    window.addEventListener("blur", handleBlur)
+
     playAudio()
 
     return () => {
+      // Cleanup event listeners
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+      window.removeEventListener("beforeunload", handleBeforeUnload)
+      window.removeEventListener("blur", handleBlur)
+      
       audio.pause()
       audio.src = ""
       if (audioContextRef.current) {
@@ -118,8 +158,24 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const resumeAudio = async () => {
+    if (audioRef.current && audioContextRef.current && gainNodeRef.current) {
+      try {
+        if (audioContextRef.current.state === 'suspended') {
+          await audioContextRef.current.resume()
+        }
+        await audioRef.current.play()
+        setIsPlaying(true)
+        // Smoothly ramp up to the desired volume
+        gainNodeRef.current.gain.linearRampToValueAtTime(volume, audioContextRef.current.currentTime + 1)
+      } catch (error) {
+        console.error("Failed to resume audio:", error)
+      }
+    }
+  }
+
   return (
-    <AudioContext.Provider value={{ isPlaying, isMuted, volume, toggleMute, setVolume }}>
+    <AudioContext.Provider value={{ isPlaying, isMuted, volume, toggleMute, setVolume, resumeAudio }}>
       {children}
     </AudioContext.Provider>
   )
