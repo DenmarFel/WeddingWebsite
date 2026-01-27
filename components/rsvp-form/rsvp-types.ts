@@ -28,7 +28,6 @@ export interface Guest {
   id: string
   firstName: string
   lastName: string
-  householdId: string
 }
 
 export interface Household {
@@ -38,6 +37,8 @@ export interface Household {
 
 export interface GuestResponse {
   guestId: string
+  firstName: string
+  lastName: string
   attending: boolean
   allergies?: string
   dietaryRestrictions?: string[]

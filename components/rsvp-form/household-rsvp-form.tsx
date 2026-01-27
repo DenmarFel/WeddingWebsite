@@ -68,26 +68,52 @@ export function HouseholdRsvpForm() {
       sharedResponses: {
         attending: isAttending
       },
-      responses: selectedGuestIds.map(guestId => ({
-        guestId,
-        attending: isAttending,
-        message: message, // Duplicate the message for each guest
-        ...individualResponses[guestId]
-      })) as GuestResponse[]
+      responses: selectedGuestIds.map(guestId => {
+        const guest = household.guests.find(g => g.id === guestId)
+        return {
+          guestId,
+          firstName: guest?.firstName || "",
+          lastName: guest?.lastName || "",
+          attending: isAttending,
+          message: message, // Duplicate the message for each guest
+          ...individualResponses[guestId]
+        }
+      }) as GuestResponse[]
     }
 
     try {
-      // Here you would send to your backend API
-      console.log("Submitting RSVP:", submissionData)
-      
-      // For now, just store in localStorage
+      // Send to API route
+      const response = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData)
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        console.log("RSVP saved successfully:", result)
+        
+        // Still store in localStorage as backup
+        localStorage.setItem("household-rsvp-submitted", JSON.stringify(submissionData))
+        
+        setIsSubmitted(true)
+        setCurrentStep("confirmation")
+      } else {
+        console.error("Failed to save RSVP:", result.error)
+        // You might want to show an error message to the user here
+        alert("Failed to save RSVP. Please try again.")
+      }
+    } catch (error) {
+      console.error("Error submitting RSVP:", error)
+      // Fallback to localStorage if API fails
       localStorage.setItem("household-rsvp-submitted", JSON.stringify(submissionData))
+      alert("There was an issue saving your RSVP, but it has been stored locally. Please contact us if this persists.")
       
       setIsSubmitted(true)
       setCurrentStep("confirmation")
-    } catch (error) {
-      console.error("Failed to submit RSVP:", error)
-      // Handle error (show toast, etc.)
     }
   }
 

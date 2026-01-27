@@ -61,9 +61,8 @@ export function getHouseholdGuests(householdId: string): Guest[] {
  * Check if a guest can RSVP for others in their household
  * Anyone in the household can RSVP for others
  */
-export function canGuestRsvpForHousehold(guestId: string, householdId: string): boolean {
-  const household = GUEST_DATA.find(h => h.id === householdId)
-  return household?.guests.some(g => g.id === guestId) || false
+export function canGuestRsvpForHousehold(guestId: string, household: Household): boolean {
+  return household.guests.some(g => g.id === guestId)
 }
 
 /**
