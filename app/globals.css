@@ -172,3 +172,13 @@
 .story-caption {
   font-family: var(--font-sans);
 }
+
+#story-progress-bar {
+  position: fixed;
+  top: 64px;
+  height: 1px;
+  mix-blend-mode: difference;
+  transition: "opacity 0.3s ease"; /* Smooth fade in/out */
+  backdrop-filter: blur(10px) saturate(50%);
+  background-color: #D2CABE
+}

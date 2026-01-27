@@ -9,21 +9,25 @@ const STORY_MILESTONES = [
     image: "/high-school.jpeg",
     caption: "from humble beginnings in 9th grade English...",
     year: "2014",
+    focalPoint: "center 20%" // Keep heads at the top
   },
   {
     image: "/graduate-photo.png",
     caption: "putting in the work, together and for each other...",
     year: "2022",
+    focalPoint: "center center"
   },
   {
     image: "/house-photo-1.jpg",
     caption: "settling in before settling down...",
     year: "2024",
+    focalPoint: "center 10%"
   },
   {
     image: "/proposal-image.jpg",
     caption: "...and finally making it official.",
     year: "9/10/2024",
+    focalPoint: "center 60%" // Keep heads at the top
   },
 ]
 
@@ -32,6 +36,7 @@ export function OurStorySection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const slidesRef = useRef<HTMLDivElement>(null)
   const [index, setIndex] = useState(0)
+  const [progress,setProgress] = useState(0)
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -43,25 +48,20 @@ export function OurStorySection() {
     if (!section || !container || !slides) return
 
     const totalWidth = slides.scrollWidth - window.innerWidth
-    
-    // Add extra scroll distance to give the last slide more screen time
-    const extraScrollForLastSlide = window.innerWidth * 0.2 // 50% of viewport width
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: container,
         start: "top top",
-        end: () => `+=${totalWidth + extraScrollForLastSlide}`,
+        end: () => `+=${totalWidth}`,
         pin: true,
         scrub: 1,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
-          // Adjust progress calculation to account for the pause at the end
-          // Map the progress so the last slide indicator fills during the extra scroll time
-          const adjustedProgress = Math.min(self.progress / 0.7, 1) // 0.7 because 30% is the pause
-          const currentIndex = Math.round(adjustedProgress * (STORY_MILESTONES.length - 1))
+          const currentIndex = Math.round(self.progress * (STORY_MILESTONES.length - 1))
           setIndex(currentIndex)
+          setProgress(self.progress)
         },
       },
     })
@@ -70,8 +70,6 @@ export function OurStorySection() {
       x: -totalWidth,
       ease: "none",
     })
-    // Add a pause at the end to keep the last slide visible longer
-    tl.to({}, { duration: 0.3 })
 
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
@@ -88,7 +86,16 @@ export function OurStorySection() {
         <div className="text-foreground/30 text-4xl font-extralight">|</div>
       </div>
 
+      <div
+        id="story-progress-bar"
+        style={{ 
+          width: `${progress * 100}vw`,
+          opacity: progress > 0.01 && progress <= 0.99999 ? 0.3 : 0
+        }}
+      ></div>
+
       <div ref={containerRef} className="h-screen w-full overflow-hidden">
+
         <div
           ref={slidesRef}
           className="flex h-full items-center"
@@ -97,34 +104,35 @@ export function OurStorySection() {
           {STORY_MILESTONES.map((milestone, index) => (
             <div
               key={index}
-              className="h-full w-screen flex-shrink-0 flex flex-col items-center justify-center px-8 md:px-16 lg:px-24"
+              // Added pt-20 (80px) to keep text below your header on desktop
+              className="h-full w-screen flex-shrink-0 flex flex-col items-center justify-center px-6 md:px-16 pt-20 md:pt-24"
             >
-              <p className="text-sm tracking-[0.3em] uppercase text-muted-foreground mb-6">{milestone.year}</p>
+              {/* 1. Year: Increased container height to ensure it has breathing room */}
+              <div className="h-10 md:h-14 flex items-end">
+                <p className="text-[10px] md:text-sm tracking-[0.3em] uppercase text-muted-foreground mb-2">
+                  {milestone.year}
+                </p>
+              </div>
 
-              <div className="relative w-full max-w-3xl aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+              {/* 2. Image Container: Using 65vh to ensure text fits on smaller laptops */}
+              <div className="relative w-full max-w-[90vw] md:max-w-none md:w-auto h-auto md:h-full max-h-[60vh] md:max-h-[65vh] aspect-[4/5] md:aspect-square rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl bg-muted/20">
                 <img
                   src={milestone.image || "/placeholder.svg"}
                   alt={milestone.caption}
                   className="w-full h-full object-cover"
+                  style={{ 
+                    objectPosition: milestone.focalPoint || "center center" 
+                  }}
                 />
               </div>
 
-              <p className="story-caption mt-8 text-xl text-foreground/80 ">
-                {milestone.caption}
-              </p>
+              {/* 3. Caption: Keeping it tight to the image */}
+              <div className="min-h-[60px] md:min-h-[100px] flex items-start text-center px-4">
+                <p className="story-caption mt-4 text-base md:text-lg text-foreground/80 max-w-sm md:max-w-lg leading-relaxed italic">
+                  {milestone.caption}
+                </p>
+              </div>
             </div>
-          ))}
-        </div>
-
-        {/* Progress indicator - fixed at bottom */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-          {STORY_MILESTONES.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === index ? "bg-foreground/60 w-8" : "bg-foreground/20 w-1.5"
-              }`}
-            />
           ))}
         </div>
       </div>
