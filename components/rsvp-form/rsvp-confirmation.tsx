@@ -25,9 +25,6 @@ export function RsvpConfirmation({ formData, isAttending }: RsvpConfirmationProp
             <p className="text-lg font-light text-muted-foreground mb-4">
               We are thrilled you will be joining us on our special day.
             </p>
-            <p className="text-base font-light text-muted-foreground">
-              A confirmation email has been sent to <span className="text-foreground">{formData.email}</span>
-            </p>
           </>
         ) : (
           <>
@@ -38,11 +35,9 @@ export function RsvpConfirmation({ formData, isAttending }: RsvpConfirmationProp
           </>
         )}
 
-        <Heart className="w-6 h-6 mx-auto mt-8 text-accent" />
-
         <Link
           href="/"
-          className="inline-block mt-8 px-8 py-3 bg-secondary hover:bg-muted text-foreground border border-border transition-colors text-sm tracking-widest uppercase"
+          className="inline-block mt-8 px-8 py-3 bg-secondary hover:bg-muted text-foreground border border-border transition-colors text-sm tracking-widest uppercase cursor-pointer"
         >
           Return Home
         </Link>

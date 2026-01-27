@@ -37,7 +37,7 @@ const faqs = [
   },
   {
     question: "When should I RSVP by?",
-    answer: "Please RSVP by April 30, 2026. This helps us finalize catering and seating arrangements.",
+    answer: "Please RSVP by April 17, 2026. This helps us finalize catering and seating arrangements.",
   },
 ]
 
@@ -62,7 +62,7 @@ export function FaqSection() {
           <div className="w-16 h-px bg-accent mx-auto mb-6" />
 
           <div className="flex justify-center mt-8">
-            <Button variant="outline" size="sm" onClick={toggleAll} className="text-sm tracking-wide bg-transparent">
+            <Button variant="outline" size="sm" onClick={toggleAll} className="text-sm tracking-wide bg-transparent cursor-pointer">
               {allExpanded ? (
                 <>
                   <ChevronsDownUp className="w-4 h-4 mr-2" />
@@ -80,8 +80,8 @@ export function FaqSection() {
 
         <Accordion type="multiple" value={openItems} onValueChange={setOpenItems} className="space-y-4">
           {faqs.map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`} className="border border-border bg-card px-6 rounded-xl">
-              <AccordionTrigger className="text-left text-base md:text-lg font-medium tracking-wide hover:no-underline py-6">
+            <AccordionItem key={index} value={`item-${index}`} className="border border-border bg-card px-6 rounded-xl !border-b">
+              <AccordionTrigger className="text-left text-base md:text-lg font-medium tracking-wide hover:no-underline py-6 cursor-pointer">
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground pb-6">{faq.answer}</AccordionContent>

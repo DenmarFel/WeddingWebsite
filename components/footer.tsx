@@ -13,9 +13,6 @@ export function Footer() {
 
         {/* Divider */}
         <div className="w-16 h-px bg-primary-foreground/30 mx-auto my-8" />
-
-        {/* Hashtag */}
-        <p className="text-sm tracking-widest text-primary-foreground/70">#CharleneAndDenmar</p>
       </div>
     </footer>
   )

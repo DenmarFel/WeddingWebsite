@@ -118,10 +118,10 @@ export function HouseholdReview({
 
       {/* Navigation */}
       <div className="flex space-x-3 pt-6 border-t">
-        <Button variant="outline" onClick={onBack} className="flex-1">
+        <Button variant="outline" onClick={onBack} className="flex-1 cursor-pointer">
           Back to Edit
         </Button>
-        <Button onClick={handleSubmit} className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90">
+        <Button onClick={handleSubmit} className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90 cursor-pointer">
           Submit RSVP
         </Button>
       </div>

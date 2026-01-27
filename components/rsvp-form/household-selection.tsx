@@ -60,8 +60,9 @@ export function HouseholdSelection({
             id={currentGuest.id}
             checked={true}
             disabled={true}
+            className="cursor-not-allowed"
           />
-          <Label htmlFor={currentGuest.id} className="flex-1">
+          <Label htmlFor={currentGuest.id} className="flex-1 cursor-not-allowed">
             <div className="font-medium">
               {currentGuest.firstName} {currentGuest.lastName} (You)
             </div>
@@ -70,11 +71,12 @@ export function HouseholdSelection({
 
         {/* Other household members */}
         {otherGuests.map((guest) => (
-          <div key={guest.id} className="flex items-center space-x-2 p-3 border rounded-md">
+          <div key={guest.id} className="flex items-center space-x-2 p-3 border rounded-md hover:bg-muted/50 cursor-pointer">
             <Checkbox 
               id={guest.id}
               checked={selectedGuestIds.includes(guest.id)}
               onCheckedChange={(checked) => handleGuestToggle(guest.id, checked as boolean)}
+              className="cursor-pointer"
             />
             <Label htmlFor={guest.id} className="flex-1 cursor-pointer">
               <div className="font-medium">
@@ -94,13 +96,13 @@ export function HouseholdSelection({
       <div className="space-y-4">
         <h3 className="text-lg font-medium">Will you be joining us?</h3>
         <RadioGroup value={attending} onValueChange={setAttending}>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="yes" id="attending-yes" />
-            <Label htmlFor="attending-yes">Joyfully Accept</Label>
+          <div className="flex items-center space-x-2 hover:bg-muted/50 p-2 rounded cursor-pointer">
+            <RadioGroupItem value="yes" id="attending-yes" className="cursor-pointer" />
+            <Label htmlFor="attending-yes" className="cursor-pointer">Joyfully Accept</Label>
           </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="no" id="attending-no" />
-            <Label htmlFor="attending-no">Regretfully Decline</Label>
+          <div className="flex items-center space-x-2 hover:bg-muted/50 p-2 rounded cursor-pointer">
+            <RadioGroupItem value="no" id="attending-no" className="cursor-pointer" />
+            <Label htmlFor="attending-no" className="cursor-pointer">Regretfully Decline</Label>
           </div>
         </RadioGroup>
         
@@ -119,13 +121,13 @@ export function HouseholdSelection({
 
       {/* Navigation */}
       <div className="flex space-x-3 pt-6 border-t">
-        <Button variant="outline" onClick={onBack} className="flex-1">
+        <Button variant="outline" onClick={onBack} className="flex-1 cursor-pointer">
           Back
         </Button>
         <Button 
           onClick={handleContinue}
           disabled={!attending || selectedGuestIds.length === 0}
-          className="flex-1"
+          className="flex-1 cursor-pointer"
         >
           Continue
         </Button>

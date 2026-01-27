@@ -100,7 +100,7 @@ export function IndividualPreferences({
           <Label>Dietary Restrictions</Label>
           <div className="grid grid-cols-2 gap-2 mt-2">
             {dietaryOptions.map((option) => (
-              <div key={option.value} className="flex items-center space-x-2">
+              <div key={option.value} className="flex items-center space-x-2 hover:bg-muted/50 p-2 rounded cursor-pointer">
                 <Checkbox
                   id={`dietary-${option.value}`}
                   checked={(currentResponse.dietaryRestrictions || []).includes(option.value)}
@@ -111,8 +111,9 @@ export function IndividualPreferences({
                       : current.filter(d => d !== option.value)
                     updateCurrentResponse('dietaryRestrictions', updated)
                   }}
+                  className="cursor-pointer"
                 />
-                <Label htmlFor={`dietary-${option.value}`} className="text-sm">
+                <Label htmlFor={`dietary-${option.value}`} className="text-sm cursor-pointer">
                   {option.label}
                 </Label>
               </div>
@@ -130,12 +131,12 @@ export function IndividualPreferences({
 
       {/* Navigation */}
       <div className="flex space-x-3 pt-6 border-t">
-        <Button variant="outline" onClick={handleBack} className="flex-1">
+        <Button variant="outline" onClick={handleBack} className="flex-1 cursor-pointer">
           Back
         </Button>
         <Button 
           onClick={handleNext}
-          className="flex-1"
+          className="flex-1 cursor-pointer"
         >
           {currentGuestIndex < guests.length - 1 ? "Next Person" : "Review & Submit"}
         </Button>

@@ -109,7 +109,7 @@ export function OurStorySection() {
             >
               {/* 1. Year: Increased container height to ensure it has breathing room */}
               <div className="h-10 md:h-14 flex items-end">
-                <p className="text-[10px] md:text-sm tracking-[0.3em] uppercase text-muted-foreground mb-2">
+                <p className="text-[10px] md:text-sm tracking-[0.3em] uppercase text-foreground/70 mb-2 font-medium">
                   {milestone.year}
                 </p>
               </div>
@@ -128,7 +128,7 @@ export function OurStorySection() {
 
               {/* 3. Caption: Keeping it tight to the image */}
               <div className="min-h-[60px] md:min-h-[100px] flex items-start text-center px-4">
-                <p className="story-caption mt-4 text-base md:text-lg text-foreground/80 max-w-sm md:max-w-lg leading-relaxed italic">
+                <p className="story-caption mt-4 text-base md:text-lg text-foreground/80 max-w-sm md:max-lg leading-relaxed italic font-normal">
                   {milestone.caption}
                 </p>
               </div>

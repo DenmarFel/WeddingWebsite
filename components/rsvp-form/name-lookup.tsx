@@ -126,8 +126,8 @@ export function NameLookup({ onGuestSelected }: NameLookupProps) {
             
             <RadioGroup value={selectedResult} onValueChange={setSelectedResult}>
               {searchResults.map((result) => (
-                <div key={result.guest.id} className="flex items-center space-x-2 p-3 border rounded-md">
-                  <RadioGroupItem value={result.guest.id} id={result.guest.id} />
+                <div key={result.guest.id} className="flex items-center space-x-2 p-3 border rounded-md hover:bg-muted/50 cursor-pointer">
+                  <RadioGroupItem value={result.guest.id} id={result.guest.id} className="cursor-pointer" />
                   <Label htmlFor={result.guest.id} className="flex-1 cursor-pointer">
                     <div className="font-medium">
                       {result.guest.firstName} {result.guest.lastName}
