@@ -21,7 +21,7 @@ const STORY_MILESTONES = [
     image: "/house-photo-1.jpg",
     caption: "settling in before settling down...",
     year: "2024",
-    focalPoint: "center 10%"
+    focalPoint: "center center"
   },
   {
     image: "/proposal-image.jpg",
