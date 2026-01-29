@@ -1,60 +1,57 @@
 import type { Guest, Household, NameSearchResult } from '@/components/rsvp-form/rsvp-types'
-import guestDataJson from '@/data/sample-guest-data.json'
-
-// Load guest data from JSON file
-const GUEST_DATA: Household[] = guestDataJson.households
 
 /**
- * Search for guests by name
+ * Search for guests by name via API
  * Returns all matching guests with their household info
  */
-export function searchGuestsByName(firstName: string, lastName?: string): NameSearchResult[] {
-  const results: NameSearchResult[] = []
-  
-  for (const household of GUEST_DATA) {
-    for (const guest of household.guests) {
-      const firstNameMatch = guest.firstName.toLowerCase() === firstName.toLowerCase()
-      const lastNameMatch = !lastName || guest.lastName.toLowerCase() === lastName.toLowerCase()
-      
-      if (firstNameMatch && lastNameMatch) {
-        results.push({
-          guest,
-          household,
-          isAmbiguous: false, // Will be set after we check all results
-        })
-      }
-    }
+export async function searchGuestsByName(firstName: string, lastName?: string): Promise<NameSearchResult[]> {
+  const params = new URLSearchParams({ firstName })
+  if (lastName) {
+    params.append('lastName', lastName)
   }
   
-  // Mark as ambiguous if multiple guests found with same name
-  if (results.length > 1) {
-    results.forEach(result => {
-      result.isAmbiguous = true
-    })
+  const response = await fetch(`/api/guests/search?${params.toString()}`)
+  
+  if (!response.ok) {
+    throw new Error('Failed to search guests')
   }
   
-  return results
+  const data = await response.json()
+  return data.results || []
 }
 
 /**
- * Get household by guest ID
+ * Get household by guest ID via API
  */
-export function getHouseholdByGuestId(guestId: string): { guest: Guest; household: Household } | null {
-  for (const household of GUEST_DATA) {
-    const guest = household.guests.find(g => g.id === guestId)
-    if (guest) {
-      return { guest, household }
+export async function getHouseholdByGuestId(guestId: string): Promise<{ guest: Guest; household: Household } | null> {
+  const response = await fetch(`/api/guests/household?guestId=${encodeURIComponent(guestId)}`)
+  
+  if (!response.ok) {
+    if (response.status === 404) {
+      return null
     }
+    throw new Error('Failed to fetch household')
   }
-  return null
+  
+  const data = await response.json()
+  return data.success ? { guest: data.guest, household: data.household } : null
 }
 
 /**
- * Get all guests in a household
+ * Get all guests in a household via API
  */
-export function getHouseholdGuests(householdId: string): Guest[] {
-  const household = GUEST_DATA.find(h => h.id === householdId)
-  return household?.guests || []
+export async function getHouseholdGuests(householdId: string): Promise<Guest[]> {
+  const response = await fetch(`/api/guests/household?householdId=${encodeURIComponent(householdId)}`)
+  
+  if (!response.ok) {
+    if (response.status === 404) {
+      return []
+    }
+    throw new Error('Failed to fetch household guests')
+  }
+  
+  const data = await response.json()
+  return data.guests || []
 }
 
 /**

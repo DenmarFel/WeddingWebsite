@@ -19,34 +19,44 @@ export function NameLookup({ onGuestSelected }: NameLookupProps) {
   const [selectedResult, setSelectedResult] = useState<string>("")
   const [showResults, setShowResults] = useState(false)
   const [error, setError] = useState("")
+  const [isSearching, setIsSearching] = useState(false)
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!firstName.trim()) {
       setError("Please enter your first name")
       return
     }
 
-    const results = searchGuestsByName(firstName.trim(), lastName.trim() || undefined)
-    
-    if (results.length === 0) {
-      setError("We couldn't find your name on our guest list. Please check the spelling or contact us if you believe this is an error.")
-      setSearchResults([])
-      setShowResults(false)
-      return
-    }
-
+    setIsSearching(true)
     setError("")
-    setSearchResults(results)
-    
-    // If only one result and not ambiguous, automatically proceed
-    if (results.length === 1 && !results[0].isAmbiguous) {
-      onGuestSelected(results[0].guest, results[0].household)
-      return
-    }
 
-    // Otherwise show results for user to choose
-    setShowResults(true)
-    setSelectedResult("")
+    try {
+      const results = await searchGuestsByName(firstName.trim(), lastName.trim() || undefined)
+      
+      if (results.length === 0) {
+        setError("We couldn't find your name on our guest list. Please check the spelling or contact us if you believe this is an error.")
+        setSearchResults([])
+        setShowResults(false)
+        return
+      }
+
+      setSearchResults(results)
+      
+      // If only one result and not ambiguous, automatically proceed
+      if (results.length === 1 && !results[0].isAmbiguous) {
+        onGuestSelected(results[0].guest, results[0].household)
+        return
+      }
+
+      // Otherwise show results for user to choose
+      setShowResults(true)
+      setSelectedResult("")
+    } catch (err) {
+      setError("An error occurred while searching. Please try again.")
+      console.error('Search error:', err)
+    } finally {
+      setIsSearching(false)
+    }
   }
 
   const handleContinue = () => {
@@ -110,9 +120,9 @@ export function NameLookup({ onGuestSelected }: NameLookupProps) {
           <Button 
             onClick={handleSearch}
             className="w-full"
-            disabled={!firstName.trim()}
+            disabled={!firstName.trim() || isSearching}
           >
-            Find My Invitation
+            {isSearching ? 'Searching...' : 'Find My Invitation'}
           </Button>
         </div>
       )}

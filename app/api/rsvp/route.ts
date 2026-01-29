@@ -22,23 +22,17 @@ export async function POST(request: NextRequest) {
     
     // Get Google Sheets client
     const sheets = await getGoogleSheetsClient()
+    // Use the same spreadsheet as guest list
     const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID
 
     if (!spreadsheetId) {
       throw new Error('Missing GOOGLE_SHEETS_SPREADSHEET_ID environment variable')
     }
 
-    // First, try to get the sheet info to see what sheets exist
-    const sheetInfo = await sheets.spreadsheets.get({
-      spreadsheetId,
-    })
-
-    // Use the first sheet (usually "Sheet1") or create headers if needed
-    const firstSheet = sheetInfo.data.sheets?.[0]
-    const sheetName = firstSheet?.properties?.title || 'Wedding RSVP Submissions'
+    const sheetName = 'RSVP Submissions'
 
     // Check if headers exist, if not add them
-    const headerRange = `${sheetName}!A1:K1`
+    const headerRange = `'${sheetName}'!A1:K1`
     const headerCheck = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range: headerRange,
@@ -88,7 +82,7 @@ export async function POST(request: NextRequest) {
     // Append data to the sheet
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: `${sheetName}!A:K`,
+      range: `'${sheetName}'!A:K`,
       valueInputOption: 'RAW',
       requestBody: {
         values: rows,
