@@ -7,28 +7,49 @@ import { ChevronsDownUp, ChevronsUpDown } from "lucide-react"
 
 const faqs = [
   {
+    question: "When should I RSVP by?",
+    answer: "Please RSVP by April 17, 2026. All RSVPs received after this date will be marked as decliding: we will be sending final headcount to our vendors following this deadline.",
+  },
+    {
+    question: "How do I RSVP?",
+    answer:
+      `To RSVP, please click the RSVP tab here on our website and type in your name. All invited guests in your party will appear here to mark as attending or declining.`,
+  },
+  {
+    question: "What time should I arrive?",
+    answer:
+      `Our ceremony will begin promptly at 4:30 PM. We kindly request that you arrive early to ensure time to park and find your seat. `,
+  },
+  {
+    question: "What should I do if I can't make it?",
+    answer:
+      `You will be missed! If you cannot attend our wedding, please indicate your regrets on our RSVP so we can plan accordingly. `,
+  },
+  {
     question: "What is the dress code?",
     answer:
-      "We request cocktail attire. Think elegant and comfortable—the ceremony and reception will be outdoors. Ladies, consider a wedge heel or flats for the garden.",
+      `We kindly request formal attire for our wedding celebrations. Guests are encouraged to wear floor-length gowns or formal cocktail dresses, and suits or tuxedos. Please refrain from wearing jeans and white attire.
+
+      For outfit inspiration, check out our Pinterest board: `,
   },
   {
     question: "Can I bring a plus one?",
     answer:
-      "Due to venue capacity, we can only accommodate guests named on the invitation. Please refer to your invitation for details.",
+      "In order to keep our wedding as intimate as possible, only the guest formally invited on your wedding invitaiton will be accomodated.",
   },
   {
     question: "Will the wedding be indoors or outdoors?",
     answer:
-      "Both the ceremony and reception will be held outdoors in the beautiful gardens of Casa Romantica. We recommend bringing a light layer for the evening.",
+      "Our ceremony will take place outdoors, with the reception to follow indoors."
   },
   {
     question: "Is there parking available?",
-    answer: "Yes, there is complimentary parking available at the venue. Valet service will also be provided.",
+    answer: "Yes, there will be complimentary parking valet available at the venue.",
   },
   {
     question: "Are children welcome?",
     answer:
-      "While we love your little ones, this will be an adults-only celebration. We hope this allows you to relax and enjoy the evening.",
+      "We love your little ones! However, we have decided to keep our wedding and reception an adults-only event with exception of some immediate family.",
   },
   {
     question: "What if I have dietary restrictions?",
@@ -36,8 +57,22 @@ const faqs = [
       "Please let us know of any dietary restrictions or allergies when you RSVP. We will do our best to accommodate all guests.",
   },
   {
-    question: "When should I RSVP by?",
-    answer: "Please RSVP by April 17, 2026. This helps us finalize catering and seating arrangements.",
+    question: "Where should I stay?",
+    answer:
+      `While we are not reserving hotel room blocks, we suggest the following nearby hotels for your conveience: 
+      The Volare, San Clemente
+      Hampton Inn & Suites, San Clemente
+      Laguna Cliffs Marriot, Dana Point `
+  },
+  {
+    question: "Will there be a bar?",
+    answer:
+      "Yes, the drinks are on us and the hangover is on you- get ready to celebrate!",
+  },
+  {
+    question: "Can I take pictures during the ceremony?",
+    answer:
+      "We are having an unplugged ceremony, meaning that once the ceremony begins, we ask that all phones be put away and silenced. We want everyone to be fully present with us and for our photographer to be able to capture the best pictures which we will share with you. Once the ceremony is over, feel free to take as many pictures as you'd like.",
   },
 ]
 
@@ -84,7 +119,7 @@ export function FaqSection() {
               <AccordionTrigger className="text-left text-base md:text-lg font-medium tracking-wide hover:no-underline py-6 cursor-pointer">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-6">{faq.answer}</AccordionContent>
+              <AccordionContent className="text-muted-foreground whitespace-pre-line pb-6">{faq.answer}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
