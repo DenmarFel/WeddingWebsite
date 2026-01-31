@@ -8,10 +8,35 @@ gsap.registerPlugin(ScrollTrigger)
 
 interface StickyHeaderProps {
   startFixed?: boolean // If true, starts in fixed position (for non-hero pages)
+  hasEntered?: boolean // If false, reset to initial state
 }
 
-export function StickyHeader({ startFixed = false }: StickyHeaderProps) {
+export function StickyHeader({ startFixed = false, hasEntered = true }: StickyHeaderProps) {
   useEffect(() => {
+    // If overlay is shown (hasEntered = false), reset to initial state
+    if (!hasEntered) {
+      // Kill only sticky header scroll triggers
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars.trigger === "#title") {
+          trigger.kill()
+        }
+      })
+      
+      gsap.set("#title-blur", {
+        height: "0",
+        width: "0",
+      })
+      gsap.set("#title", {
+        position: "absolute",
+        top: "10%",
+        width: "auto",
+        height: "auto",
+        mixBlendMode: "normal",
+        fontSize: "clamp(2.5rem,6vw,6rem)",
+      })
+      return
+    }
+
     if (startFixed) {
       // For pages like RSVP - start in fixed position
       gsap.set("#title", {
@@ -84,9 +109,14 @@ export function StickyHeader({ startFixed = false }: StickyHeaderProps) {
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+      // Only kill sticky header scroll triggers on cleanup
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars.trigger === "#title") {
+          trigger.kill()
+        }
+      })
     }
-  }, [startFixed])
+  }, [startFixed, hasEntered])
 
   return (
     <>
@@ -94,13 +124,13 @@ export function StickyHeader({ startFixed = false }: StickyHeaderProps) {
       <div 
         id="title-blur" 
         style={startFixed ? {} : { top: '10%' }} 
-        className="absolute w-full pointer-events-none z-[39]"
+        className="absolute w-full pointer-events-none z-[34]"
       />
 
       <div 
         id="title" 
         style={startFixed ? {} : { top: '10%' }} 
-        className={`flex flex-col items-center justify-center px-3 w-full max-w-[100vw] font-medium tracking-wide z-40 text-white absolute [--target-size:2.5rem] ${
+        className={`flex flex-col items-center justify-center px-3 w-full max-w-[100vw] font-medium tracking-wide z-40 text-white absolute [--target-size:2.5rem] pointer-events-none ${
           startFixed 
             ? 'text-[2.5rem]' 
             : 'text-[clamp(2.5rem,6vw,6rem)]'

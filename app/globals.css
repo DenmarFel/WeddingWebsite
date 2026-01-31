@@ -127,6 +127,17 @@
   /* Smooth scrolling for anchor links */
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  /* Force scroll to top on page load */
+  html.scroll-top-on-load {
+    scroll-behavior: auto !important;
+  }
+
+  /* Prevent scroll restoration on page load */
+  html.no-scroll-restoration {
+    overflow: hidden;
   }
 
   /* Apply sans-serif to body text elements */

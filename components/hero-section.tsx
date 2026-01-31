@@ -4,14 +4,18 @@ import { CalendarSaveButton } from "./calendar-save-button"
 import { SaveTheDateBadge } from "./save-the-date-badge"
 import { StickyHeader } from "./sticky-header"
 
-export function HeroSection() {
+interface HeroSectionProps {
+  hasEntered?: boolean
+}
+
+export function HeroSection({ hasEntered = true }: HeroSectionProps) {
   return (
     <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center">
       <div className="absolute inset-0 z-0">
         <img src="/cover-landscape.jpeg" alt="Charlene and Denmar" className="w-full h-full object-cover" />
       </div>
       
-      <StickyHeader />
+      <StickyHeader hasEntered={hasEntered} />
 
       <div className="absolute bottom-10 right-6 md:bottom-12 md:right-12 z-30">
         <SaveTheDateBadge />

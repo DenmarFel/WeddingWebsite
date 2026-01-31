@@ -103,7 +103,7 @@ export function AudioVisualizer() {
           toggleMute()
         }
       }}
-      className="fixed top-0 right-6 z-[60] h-[64px] flex items-center justify-center bg-transparent border-none mix-blend-difference nav-button cursor-pointer outline-none"
+      className="fixed top-0 right-6 z-[35] h-[64px] flex items-center justify-center bg-transparent border-none mix-blend-difference nav-button cursor-pointer outline-none"
       aria-label={!isPlaying ? "Resume music" : (isMuted ? "Unmute music" : "Mute music")}
       title={!isPlaying ? "Click to resume" : (isMuted ? "Click to unmute" : "Click to mute")}
     >

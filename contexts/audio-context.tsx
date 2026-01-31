@@ -58,29 +58,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     // Start the gain at 0 (silent)
     gainNode.gain.setValueAtTime(0, audioCtx.currentTime)
 
-    const playAudio = async () => {
-      try {
-        await audio.play()
-        setIsPlaying(true)
-        
-        // Smoothly ramp up to the desired volume over 5 seconds
-        gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 5)
-      } catch (error) {
-        console.log("[Wedding-Site] Autoplay blocked, waiting for interaction")
-        const startOnClick = async () => {
-          try {
-            if (audioCtx.state === 'suspended') await audioCtx.resume()
-            await audio.play()
-            setIsPlaying(true)
-            gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 5)
-            document.removeEventListener("click", startOnClick)
-          } catch (e) {
-            console.error("Failed to start audio:", e)
-          }
-        }
-        document.addEventListener("click", startOnClick)
-      }
-    }
+    // Don't autoplay - wait for user interaction via resumeAudio()
 
     // Page visibility change handler
     const handleVisibilityChange = () => {
@@ -115,8 +93,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     document.addEventListener("visibilitychange", handleVisibilityChange)
     window.addEventListener("beforeunload", handleBeforeUnload)
     window.addEventListener("blur", handleBlur)
-
-    playAudio()
 
     return () => {
       // Cleanup event listeners
@@ -164,8 +140,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         }
         await audioRef.current.play()
         setIsPlaying(true)
-        // Smoothly ramp up to the desired volume
-        gainNodeRef.current.gain.linearRampToValueAtTime(volume, audioContextRef.current.currentTime + 1)
+        // Smoothly ramp up to the desired volume over 5 seconds
+        gainNodeRef.current.gain.linearRampToValueAtTime(volume, audioContextRef.current.currentTime + 5)
       } catch (error) {
         console.error("Failed to resume audio:", error)
       }
