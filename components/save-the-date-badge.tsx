@@ -3,6 +3,23 @@
 import React, { useMemo } from "react"
 
 export function SaveTheDateBadge() {
+  // ─── Edit your event details here ───
+  const EVENT = {
+    title: "Charlene & Denmar Wedding",
+    description:
+      "Join us for the wedding celebration of Charlene Santos & Denmar Feliciano! " +
+      "Ceremony begins at 4:30 PM, followed by cocktail hour and reception. " +
+      "Formal attire requested. " +
+      "For more details visit: https://charmarwedding.com",
+    location: "La Ventura, 2316 South El Camino Real, San Clemente, CA 92672",
+    // Times in UTC — 4:30 PM PDT = 23:30 UTC, 11:00 PM PDT = 06:00 UTC next day
+    startUTC: "20260530T233000Z",
+    endUTC: "20260531T050000Z",
+    filename: "Wedding-Charlene-Denmar.ics",
+    url: "https://charmarwedding.com",
+  }
+  // ────────────────────────────────────
+
   const weddingDate = new Date("2026-05-30")
   
   const daysRemaining = useMemo(() => {
@@ -20,25 +37,19 @@ export function SaveTheDateBadge() {
     e.preventDefault();
 
     const isApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
-    
-    // 4:30 PM PDT = 23:30 UTC
-    const event = {
-      title: "Charlene & Denmar Wedding",
-      start: "20260530T233000Z",
-      end: "20260531T060000Z",
-      location: "2316 South El Camino Real, San Clemente, California",
-    };
 
     if (isApple) {
-      // Create .ics for Apple/Mac
       const icsContent = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
+        "PRODID:-//Wedding//EN",
         "BEGIN:VEVENT",
-        `DTSTART:${event.start}`,
-        `DTEND:${event.end}`,
-        `SUMMARY:${event.title}`,
-        `LOCATION:${event.location}`,
+        `DTSTART:${EVENT.startUTC}`,
+        `DTEND:${EVENT.endUTC}`,
+        `SUMMARY:${EVENT.title}`,
+        `DESCRIPTION:${EVENT.description.replace(/\n/g, "\\n")}`,
+        `LOCATION:${EVENT.location}`,
+        `URL:${EVENT.url}`,
         "END:VEVENT",
         "END:VCALENDAR"
       ].join("\r\n");
@@ -48,14 +59,13 @@ export function SaveTheDateBadge() {
       
       const link = document.createElement("a");
       link.href = url;
-      link.download = "Wedding-Charlene-Denmar.ics";
+      link.download = EVENT.filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     } else {
-      // Google Calendar for Android/Windows/Others
-      const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.start}/${event.end}&location=${encodeURIComponent(event.location)}`;
+      const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(EVENT.title)}&dates=${EVENT.startUTC}/${EVENT.endUTC}&location=${encodeURIComponent(EVENT.location)}&details=${encodeURIComponent(EVENT.description)}`;
       window.open(googleUrl, "_blank", "noopener,noreferrer");
     }
   };

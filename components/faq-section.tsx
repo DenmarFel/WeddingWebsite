@@ -8,7 +8,7 @@ import { ChevronsDownUp, ChevronsUpDown } from "lucide-react"
 const faqs = [
   {
     question: "When should I RSVP by?",
-    answer: "Please RSVP by April 17, 2026. All RSVPs received after this date will be marked as declining: we will be sending final headcount to our vendors following this deadline.",
+    answer: "We kindly request your response by this date so we can finalize arrangements with our vendors. If we do not receive your RSVP by the deadline, we will regretfully assume you are unable to attend.",
   },
     {
     question: "How do I RSVP?",
@@ -28,9 +28,8 @@ const faqs = [
   {
     question: "What is the dress code?",
     answer:
-      `We kindly request formal attire for our wedding celebrations. Guests are encouraged to wear floor-length gowns or formal cocktail dresses, and suits or tuxedos. Please refrain from wearing jeans and white attire.
-
-      For outfit inspiration, check out our Pinterest board: `,
+      <>We kindly request formal attire for our wedding celebration. Men are to wear suit and tie or dress shirt and tie. Women to wear a floor-length gown or a formal cocktail dress.Please refrain from wearing jeans and white attire.<br/><br/>
+      For outfit inspiration, check out our <a href="https://pin.it/5PiZdYanC" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "var(--font-body)" }} className="underline underline-offset-4 hover:text-foreground transition-colors">Pinterest board</a>.</>,
   },
   {
     question: "Can I bring a plus one?",
@@ -59,7 +58,7 @@ const faqs = [
   {
     question: "Where should I stay?",
     answer:
-      `While we are not reserving hotel room blocks, we suggest the following nearby hotels for your conveience: 
+      `While we are not reserving hotel room blocks, we suggest the following nearby hotels for your convenience: 
       The Volare, San Clemente
       Hampton Inn & Suites, San Clemente
       Laguna Cliffs Marriot, Dana Point `
