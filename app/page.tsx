@@ -18,9 +18,16 @@ export default function WeddingPage() {
   const [hasEntered, setHasEntered] = useState(false)
   const { resumeAudio } = useAudio()
 
+  // Skip overlay if user already entered this session
+  useEffect(() => {
+    if (sessionStorage.getItem("hasEntered") === "true") {
+      setHasEntered(true)
+    }
+  }, [])
+
   const handleEnter = (soundEnabled: boolean) => {
     setHasEntered(true)
-    // Resume audio when user clicks enter, only if sound is enabled
+    sessionStorage.setItem("hasEntered", "true")
     if (soundEnabled) {
       resumeAudio()
     }
