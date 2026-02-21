@@ -184,3 +184,22 @@
   font-family: var(--font-sans);
 }
 
+/* Pulse scale animation for save-the-date badge */
+@keyframes pulse-scale {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.95;
+  }
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 2s ease-in-out infinite;
+}
+
+.animate-pulse-scale:hover {
+  animation: none;
+}

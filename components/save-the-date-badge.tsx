@@ -1,27 +1,9 @@
 "use client"
 
-import React, { useMemo } from "react"
+import { useMemo } from "react"
+import { handleAddToCalendar } from "@/lib/calendar-utils"
 
 export function SaveTheDateBadge() {
-  // ─── Edit your event details here ───
-  const EVENT = {
-    title: "Charlene & Denmar Wedding",
-    description:
-      "Join us for the wedding celebration of Charlene Santos & Denmar Feliciano! " +
-      "Ceremony begins at 4:30 PM, followed by cocktail hour and reception. " +
-      "Formal attire requested. " +
-      "For more details visit: https://charmarwedding.com",
-    location: "La Ventura, 2316 South El Camino Real, San Clemente, CA 92672",
-    // Times in UTC — 4:30 PM PDT = 23:30 UTC, 11:00 PM PDT = 06:00 UTC next day
-    startUTC: "20260530T233000Z",
-    endUTC: "20260531T050000Z",
-    filename: "Wedding-Charlene-Denmar.ics",
-    url: "https://charmarwedding.com",
-  }
-  // ────────────────────────────────────
-
-  const weddingDate = new Date("2026-05-30")
-  
   const daysRemaining = useMemo(() => {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
@@ -33,50 +15,13 @@ export function SaveTheDateBadge() {
     return diffInDays > 0 ? diffInDays : 0
   }, [])
 
-  const handleCalendarClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-
-    const isApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
-
-    if (isApple) {
-      const icsContent = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//Wedding//EN",
-        "BEGIN:VEVENT",
-        `DTSTART:${EVENT.startUTC}`,
-        `DTEND:${EVENT.endUTC}`,
-        `SUMMARY:${EVENT.title}`,
-        `DESCRIPTION:${EVENT.description.replace(/\n/g, "\\n")}`,
-        `LOCATION:${EVENT.location}`,
-        `URL:${EVENT.url}`,
-        "END:VEVENT",
-        "END:VCALENDAR"
-      ].join("\r\n");
-
-      const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = EVENT.filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } else {
-      const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(EVENT.title)}&dates=${EVENT.startUTC}/${EVENT.endUTC}&location=${encodeURIComponent(EVENT.location)}&details=${encodeURIComponent(EVENT.description)}`;
-      window.open(googleUrl, "_blank", "noopener,noreferrer");
-    }
-  };
-
   return (
     <button
-      onClick={handleCalendarClick}
-      className="group relative flex items-center justify-center w-24 h-24 md:w-32 md:h-32 cursor-pointer transition-transform duration-300 hover:scale-110 bg-transparent border-none"
+      onClick={handleAddToCalendar}
+      className="group relative flex items-center justify-center w-24 h-24 md:w-32 md:h-32 cursor-pointer transition-transform duration-300 hover:scale-110 bg-transparent border-none animate-pulse-scale"
     >
       {/* Spinning Text Layer */}
-      <div className="absolute inset-0 animate-[spin_10s_linear_infinite] group-hover:pause-animation">
+      <div className="absolute inset-0 animate-[spin_26s_linear_infinite] group-hover:pause-animation">
         <svg className="w-full h-full" viewBox="0 0 100 100">
           <defs>
             <path
