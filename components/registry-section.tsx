@@ -13,7 +13,7 @@ const REGISTRY_LINKS = [
   },
   {
     name: "Crate & Barrel",
-    url: "https://crateandbarrel.com/registry-placeholder",
+    url: "https://www.crateandbarrel.com/gift-registry/denmar-feliciano-and-charlene-santos/r7504998",
     logo: "/logo-crate-barrel.png",
   },
 ]
