@@ -8,7 +8,7 @@ import { ChevronsDownUp, ChevronsUpDown } from "lucide-react"
 const faqs = [
   {
     question: "When should I RSVP by?",
-    answer: "We kindly request your response by this date so we can finalize arrangements with our vendors. If we do not receive your RSVP by the deadline, we will regretfully assume you are unable to attend.",
+    answer: "We kindly request your response by Friday, April 17th, 2026 so we can finalize arrangements with our vendors. If we do not receive your RSVP by the deadline, we will regretfully assume you are unable to attend.",
   },
     {
     question: "How do I RSVP?",
