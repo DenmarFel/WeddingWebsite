@@ -20,19 +20,12 @@ export function VantaBackground() {
           gyroControls: false,
           minHeight: 200.0,
           minWidth: 200.0,
-          // highlightColor: 0xebebeb, 
-          // midtoneColor: 0xf2f2f2,  
-          // lowlightColor: 0xd9bcc8,  
-          // baseColor: 0xFFFFFF,
-          // blurFactor: 0.9,         // Keep it soft and dreamy
-          // speed: 1,              // Slow, elegant movement
-          // zoom: 0.5,
-          highlightColor: 0xF4F5F8, 
-          midtoneColor: 0xD2CABE,  
-          lowlightColor: 0xD2CABE,  
-          baseColor: 0xFAF8F4,
-          blurFactor: 0.9,         // Keep it soft and dreamy
-          speed: 2,              // Slow, elegant movement
+          highlightColor: 0xFCFCFC,
+          midtoneColor: 0xECEBE8,
+          lowlightColor: 0xE8E7E4,
+          baseColor: 0xFAFAF8,
+          blurFactor: 0.9,
+          speed: 1.5,
           zoom: 1,
         })
       )

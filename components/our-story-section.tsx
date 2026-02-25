@@ -79,7 +79,7 @@ export function OurStorySection() {
             ref={(el) => { milestonesRef.current[index] = el }}
             className="flex flex-col items-center w-full max-w-xs md:max-w-lg"
           >
-            <p className="text-[10px] md:text-sm tracking-[0.3em] uppercase text-foreground/70 mb-3 font-medium">
+            <p className="text-sm md:text-base tracking-[0.3em] uppercase text-foreground/70 mb-3 font-light" style={{ fontFamily: "var(--font-sans)" }}>
               {milestone.year}
             </p>
 
