@@ -34,7 +34,7 @@ const faqs = [
   {
     question: "Can I bring a plus one?",
     answer:
-      "In order to keep our wedding as intimate as possible, only the guest formally invited on your wedding invitaiton will be accomodated.",
+      "In order to keep our wedding as intimate as possible, only the guest formally invited on your wedding invitation will be accomodated.",
   },
   {
     question: "Will the wedding be indoors or outdoors?",
