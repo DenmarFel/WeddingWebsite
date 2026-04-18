@@ -1,5 +1,4 @@
 "use client"
-import Link from "next/link"
 
 export function RsvpSection() {
   return (
@@ -27,13 +26,10 @@ export function RsvpSection() {
           </p>
         </div>
 
-        {/* CTA Button - Minimal and Elegant */}
-        <Link
-          href="/rsvp"
-          className="inline-block px-8 py-3 text-foreground font-normal text-lg tracking-wide border border-foreground/30 rounded-lg hover:bg-foreground/5 hover:border-foreground/50 transition-all duration-300"
-        >
-          Begin Your RSVP
-        </Link>
+        {/* CTA Button - Closed */}
+        <span className="inline-block px-8 py-3 text-foreground/40 font-normal text-lg tracking-wide border border-foreground/15 rounded-lg cursor-not-allowed select-none">
+          RSVP Window Closed
+        </span>
 
         <p className="mt-16 text-foreground/60 font-normal text-lg italic max-w-md mx-auto leading-relaxed">
           and kindly let us know

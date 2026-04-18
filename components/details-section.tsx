@@ -58,10 +58,14 @@ export function DetailsSection() {
               2316 South El Camino Real<br/>
               San Clemente, California
             </p>
-          </div>
+          </div>    
 
           {/* Section 3: The Time (Single source of truth) */}
           <footer className="inline-block border-t border-foreground/20 px-12 pt-8">
+            <p className="text-[0.75rem] uppercase tracking-[0.2em] text-foreground/60 mb-2">
+              Doors open at
+            </p>
+            <p className="text-2xl font-serif font-normal text-foreground mb-6">4:00 PM</p>
             <p className="text-[0.75rem] uppercase tracking-[0.2em] text-foreground/60 mb-2">
               Ceremony begins at
             </p>

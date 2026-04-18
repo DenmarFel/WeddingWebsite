@@ -3,7 +3,7 @@ export const WEDDING_EVENT = {
   title: "Charlene & Denmar Wedding",
   description:
     "Join us for the wedding celebration of Charlene Santos & Denmar Feliciano! " +
-    "Ceremony begins at 4:30 PM, followed by cocktail hour and reception. " +
+    "Doors open at 4:00 PM and ceremony begins at 4:30 PM, followed by cocktail hour and reception. " +
     "Formal attire requested. " +
     "For more details visit: https://charmarwedding.com",
   location: "La Ventura, 2316 South El Camino Real, San Clemente, CA 92672",
@@ -11,7 +11,7 @@ export const WEDDING_EVENT = {
   locationAddress: "2316 S El Camino Real, San Clemente, CA  92672, United States",
   locationTitle: "La Ventura",
   // Times in Pacific Time (with timezone)
-  startLocal: "20260530T163000", // 4:30 PM PDT
+  startLocal: "20260530T160000", // 4:00 PM PDT
   endLocal: "20260530T220000",   // 10:00 PM PDT
   timezone: "America/Los_Angeles",
   filename: "Wedding-Charlene-Denmar.ics",
@@ -105,7 +105,7 @@ export function generateICSContent(): string {
  */
 export function getGoogleCalendarUrl(): string {
   // Convert local time to UTC for Google Calendar
-  const startUTC = "20260530T233000Z"; // 4:30 PM PDT = 11:30 PM UTC
+  const startUTC = "20260530T230000Z"; // 4:00 PM PDT = 11:00 PM UTC
   const endUTC = "20260531T050000Z";   // 10:00 PM PDT = 5:00 AM UTC next day
   
   return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(WEDDING_EVENT.title)}&dates=${startUTC}/${endUTC}&location=${encodeURIComponent(WEDDING_EVENT.location)}&details=${encodeURIComponent(WEDDING_EVENT.description)}`;
