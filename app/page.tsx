@@ -12,6 +12,7 @@ import { FaqSection } from "@/components/faq-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { EntryOverlay } from "@/components/entry-overlay"
+import { AudioVisualizer } from "@/components/audio-visualizer"
 import { useAudio } from "@/contexts/audio-context"
 
 export default function WeddingPage() {
@@ -85,6 +86,7 @@ export default function WeddingPage() {
       <FaqSection />
       {/* <ContactSection /> */}
       <Footer />
+      <AudioVisualizer />
     </main>
   )
 }

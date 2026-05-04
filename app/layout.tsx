@@ -57,7 +57,6 @@ export default function RootLayout({
         {USE_SILK_BACKGROUND ? <SilkBackground /> : <VantaBackground />}
         <AudioProvider>
           {children}
-          <AudioVisualizer />
         </AudioProvider>
         <Analytics />
       </body>

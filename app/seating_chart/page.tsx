@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { StickyHeader } from "@/components/sticky-header"
 
 export default function SeatingChartPage() {
   const [password, setPassword] = useState("")
@@ -29,11 +28,10 @@ export default function SeatingChartPage() {
   if (authenticated) {
     return (
       <main className="min-h-screen">
-        <StickyHeader startFixed={true} />
-        <div className="pt-20">
+        <div className="w-full h-screen">
           <iframe
             src="/seating_chart_saved.html"
-            className="w-full h-[calc(100vh-5rem)] border-0"
+            className="w-full h-full border-0"
             title="Seating Chart"
           />
         </div>
@@ -43,7 +41,6 @@ export default function SeatingChartPage() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-background">
-      <StickyHeader startFixed={true} />
       <div className="w-full max-w-md px-4">
         <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-8">
           <h1 className="text-2xl font-serif font-light text-foreground mb-6 text-center">
@@ -60,6 +57,7 @@ export default function SeatingChartPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-white/30"
+                autoComplete="off"
                 autoFocus
               />
             </div>
