@@ -27,8 +27,12 @@ const VENUE = {
 export function WeddingMap() {
   const [mapLoaded, setMapLoaded] = useState(false)
 
-  // Styled Google Maps embed URL with custom styling
-  const embedUrl = `https://www.google.com/maps/embed/v1/place?key=REDACTED_GOOGLE_MAPS_KEY&q=${encodeURIComponent(VENUE.address)}&zoom=15`
+  // Use the Maps Embed API when a key is configured, otherwise fall back to the keyless embed
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+  const query = encodeURIComponent(VENUE.address)
+  const embedUrl = apiKey
+    ? `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${query}&zoom=15`
+    : `https://maps.google.com/maps?q=${query}&z=15&output=embed`
 
   return (
     <div>
