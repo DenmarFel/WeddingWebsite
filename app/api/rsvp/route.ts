@@ -16,7 +16,17 @@ async function getGoogleSheetsClient() {
   return sheets
 }
 
+// RSVP window closed April 17th, 2026. Flip to true to accept submissions again.
+const RSVP_OPEN = false
+
 export async function POST(request: NextRequest) {
+  if (!RSVP_OPEN) {
+    return NextResponse.json(
+      { error: 'The RSVP window is closed' },
+      { status: 403 }
+    )
+  }
+
   try {
     const rsvpData: HouseholdRsvpData = await request.json()
     

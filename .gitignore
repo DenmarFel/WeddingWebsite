@@ -44,3 +44,7 @@ next-env.d.ts
 # IDE
 /.vscode
 /.kiro/
+
+# licensed fonts (not redistributable)
+/public/fonts/*.woff
+/public/fonts/*.woff2

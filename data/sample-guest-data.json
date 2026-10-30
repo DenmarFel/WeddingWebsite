@@ -1,0 +1,44 @@
+{
+  "households": [
+    {
+      "id": "household-jackson-1",
+      "guests": [
+        {
+          "id": "guest-bob-jackson",
+          "firstName": "Bob",
+          "lastName": "Jackson"
+        },
+        {
+          "id": "guest-mary-jackson",
+          "firstName": "Mary",
+          "lastName": "Jackson"
+        },
+        {
+          "id": "guest-duncan-white-1",
+          "firstName": "Duncan",
+          "lastName": "White"
+        }
+      ]
+    },
+    {
+      "id": "household-santos-1",
+      "guests": [
+        {
+          "id": "guest-charlene-santos",
+          "firstName": "Charlene",
+          "lastName": "Santos"
+        },
+        {
+          "id": "guest-kirsten-santos",
+          "firstName": "Denmar",
+          "lastName": "Feliciano"
+        },
+        {
+          "id": "guest-duncan-white-2",
+          "firstName": "Duncan",
+          "lastName": "White"
+        }
+      ]
+    }
+  ]
+}

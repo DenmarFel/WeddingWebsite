@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { google } from "googleapis"
+import { isAuthorized } from "@/lib/seating-auth"
 
 async function getGoogleSheetsClient() {
   const auth = new google.auth.GoogleAuth({
@@ -15,6 +16,10 @@ async function getGoogleSheetsClient() {
 }
 
 export async function POST(request: NextRequest) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
   try {
     const { data } = await request.json()
     

@@ -1,0 +1,850 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Seating Chart</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: #f7f5f0;
+    color: #2c2c2c;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #toolbar {
+    background: #fff;
+    border-bottom: 1px solid #e5e1d8;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  #toolbar h1 { 
+    font-size: 18px; 
+    color: #2c2c2c; 
+    margin-right: auto; 
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  .btn {
+    padding: 8px 16px; 
+    border: 1px solid #d4cfc4; 
+    border-radius: 6px;
+    cursor: pointer; 
+    font-size: 13px; 
+    font-weight: 500;
+    transition: all .2s;
+    background: #fff;
+    color: #2c2c2c;
+  }
+  .btn:hover:not(:disabled) { 
+    background: #f7f5f0;
+    border-color: #2c2c2c;
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  #main { display: flex; flex: 1; overflow: hidden; }
+
+  #canvas-wrap {
+    flex: 1; overflow: auto; padding: 24px;
+    background: #f7f5f0;
+  }
+
+  #room {
+    position: relative;
+    width: 1300px;
+    height: 1020px;
+    background: #fdfcfa;
+    border-radius: 8px;
+    border: 1px solid #e5e1d8;
+    margin: 0 auto;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  .room-label {
+    position: absolute;
+    font-weight: 500;
+    color: #6b6b6b;
+    text-align: center;
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+
+  .table-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #d4cfc4;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 500; color: #2c2c2c;
+    pointer-events: none; 
+    z-index: 1;
+    transition: all .2s;
+    user-select: none;
+  }
+  .table-circle.draggable {
+    pointer-events: auto;
+    cursor: move;
+  }
+  .table-circle.draggable:hover {
+    border-color: #2c2c2c;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .table-rect {
+    position: absolute;
+    background: #fff;
+    border: 2px solid #d4cfc4;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 500; color: #2c2c2c;
+    pointer-events: none; 
+    z-index: 1;
+    transition: all .2s;
+    user-select: none;
+  }
+  .table-rect.draggable {
+    pointer-events: auto;
+    cursor: move;
+  }
+  .table-rect.draggable:hover {
+    border-color: #2c2c2c;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .seat {
+    position: absolute;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid #d4cfc4;
+    background: #fff;
+    cursor: move;
+    display: flex; align-items: center; justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 8.5px; font-weight: 600; color: #2c2c2c;
+    text-align: center; line-height: 1.25;
+    white-space: pre-line;
+    transition: all .2s;
+    z-index: 5;
+    padding: 3px;
+    overflow: hidden;
+  }
+  .seat:hover {
+    background: #f7f5f0;
+    transform: scale(1.12);
+    border-color: #2c2c2c;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 10;
+  }
+  .seat.empty { 
+    background: #faf9f7; 
+    color: #aaa; 
+    border-color: #e5e1d8;
+  }
+  .seat.selected {
+    background: #2c2c2c !important;
+    color: #fff !important;
+    transform: scale(1.15);
+    border-color: #2c2c2c;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    z-index: 20;
+  }
+
+  #panel {
+    width: 280px; 
+    background: #fff;
+    border-left: 1px solid #e5e1d8;
+    display: flex; flex-direction: column;
+    flex-shrink: 0; overflow: hidden;
+  }
+  #edit-section { 
+    padding: 20px; 
+    border-bottom: 1px solid #e5e1d8; 
+  }
+  #edit-section h2 { 
+    font-size: 15px; 
+    color: #2c2c2c; 
+    margin-bottom: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  #seat-info { 
+    font-size: 12px; 
+    color: #6b6b6b; 
+    margin-bottom: 12px; 
+    min-height: 18px; 
+  }
+  #name-input {
+    width: 100%; 
+    padding: 10px 12px; 
+    border-radius: 6px;
+    border: 1px solid #d4cfc4; 
+    background: #fdfcfa;
+    color: #2c2c2c; 
+    font-size: 14px; 
+    margin-bottom: 10px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  #name-input:focus { 
+    outline: none;
+    border-color: #2c2c2c;
+  }
+  .panel-btn {
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #d4cfc4; 
+    border-radius: 6px;
+    cursor: pointer; 
+    font-size: 13px; 
+    font-weight: 500;
+    margin-bottom: 8px; 
+    transition: all .2s;
+    background: #fff;
+    color: #2c2c2c;
+  }
+  .panel-btn:hover { 
+    background: #f7f5f0;
+    border-color: #2c2c2c;
+  }
+
+  #summary-section { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 16px 20px; 
+  }
+  #summary-section h3 { 
+    font-size: 13px; 
+    color: #6b6b6b; 
+    margin-bottom: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .summary-table {
+    margin-bottom: 12px; 
+    background: #fdfcfa;
+    border: 1px solid #e5e1d8;
+    border-radius: 6px; 
+    padding: 12px;
+    cursor: pointer; 
+    transition: all .2s;
+  }
+  .summary-table:hover { 
+    background: #f7f5f0;
+    border-color: #d4cfc4;
+  }
+  .summary-table-title { 
+    font-size: 12px; 
+    font-weight: 600; 
+    color: #2c2c2c; 
+    margin-bottom: 6px; 
+  }
+  .summary-name { 
+    font-size: 11px; 
+    color: #6b6b6b; 
+    padding: 2px 0; 
+  }
+  .summary-name.empty-slot { 
+    color: #aaa; 
+    font-style: italic; 
+  }
+
+  #tooltip {
+    position: fixed; 
+    background: #2c2c2c; 
+    color: #fff;
+    padding: 8px 12px; 
+    border-radius: 6px; 
+    font-size: 12px;
+    pointer-events: none; 
+    z-index: 1000; 
+    display: none;
+    max-width: 180px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    white-space: pre-line;
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    #toolbar, #panel { display: none; }
+    #canvas-wrap { padding: 0; overflow: visible; }
+    #room { border-color: #ccc; width: 100% !important; height: auto !important; }
+    .seat { border-color: #ccc; background: #fff !important; color: #000 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <h1>Wedding Seating Chart</h1>
+  <button class="btn" id="undo-btn" onclick="undo()" disabled>↶ Undo</button>
+  <button class="btn" id="redo-btn" onclick="redo()" disabled>↷ Redo</button>
+  <button class="btn btn-save" onclick="saveData()">💾 Save</button>
+  <button class="btn btn-export" onclick="exportTxt()">📋 Export TXT</button>
+  <button class="btn btn-print" onclick="window.print()">🖨 Print</button>
+  <button class="btn btn-reset" onclick="resetData()">↩ Reset</button>
+</div>
+
+<div id="main">
+  <div id="canvas-wrap">
+    <div id="room"></div>
+  </div>
+  <div id="panel">
+    <div id="edit-section">
+      <h2>✏️ Edit Seat</h2>
+      <div id="seat-info">Click any seat to edit</div>
+      <input id="name-input" type="text" placeholder="Guest name..." onkeydown="if(event.key==='Enter') applyEdit()">
+      <button class="panel-btn pb-apply" onclick="applyEdit()">✓ Apply</button>
+      <button class="panel-btn pb-clear" onclick="clearSeat()">✕ Clear Seat</button>
+    </div>
+    <div id="summary-section">
+      <h3>Table Summary</h3>
+      <div id="summary"></div>
+    </div>
+  </div>
+</div>
+<div id="tooltip"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+// Empty initial data - will be loaded from Google Sheets
+const INITIAL = {
+  1:  ["","","","","","","",""],
+  2:  ["","","","","","","",""],
+  3:  ["","","","","","","",""],
+  4:  ["","","","","","","",""],
+  5:  ["","","","","","","",""],
+  6:  ["","","","","","","",""],
+  7:  ["","","","","","","",""],
+  8:  ["","","","","","","",""],
+  9:  ["","","","","","","",""],
+  10: ["","","","","","","",""],
+  11: ["","","","","","","",""],
+  12: ["","","","","","","",""],
+  13: ["","","","","","","",""],
+  14: ["","","","","","","",""],
+  15: ["","","","","","","",""],
+};
+
+const STORAGE_KEY = "wedding_seating_v4";
+let data = {};
+let selectedSeat = null;
+
+// Undo/Redo history
+let history = [];
+let historyIndex = -1;
+const MAX_HISTORY = 50;
+
+function saveToHistory() {
+  // Remove any future states if we're not at the end
+  if (historyIndex < history.length - 1) {
+    history = history.slice(0, historyIndex + 1);
+  }
+  
+  // Add current state
+  history.push(JSON.parse(JSON.stringify(data)));
+  
+  // Limit history size
+  if (history.length > MAX_HISTORY) {
+    history.shift();
+  } else {
+    historyIndex++;
+  }
+  
+  updateUndoRedoButtons();
+}
+
+function undo() {
+  if (historyIndex > 0) {
+    historyIndex--;
+    data = JSON.parse(JSON.stringify(history[historyIndex]));
+    persistData();
+    renderAll();
+    updateUndoRedoButtons();
+  }
+}
+
+function redo() {
+  if (historyIndex < history.length - 1) {
+    historyIndex++;
+    data = JSON.parse(JSON.stringify(history[historyIndex]));
+    persistData();
+    renderAll();
+    updateUndoRedoButtons();
+  }
+}
+
+function updateUndoRedoButtons() {
+  document.getElementById("undo-btn").disabled = historyIndex <= 0;
+  document.getElementById("redo-btn").disabled = historyIndex >= history.length - 1;
+}
+
+async function loadData() {
+  try {
+    const response = await fetch('/api/seating_chart/load');
+    if (response.ok) {
+      const result = await response.json();
+      return result.data || JSON.parse(JSON.stringify(INITIAL));
+    }
+    if (response.status === 401) showToast("Session expired — reload and re-enter the password");
+  } catch (error) {
+    console.error('Error loading seating data:', error);
+  }
+  // Fallback to initial data
+  return JSON.parse(JSON.stringify(INITIAL));
+}
+
+function persistData() {
+  // Save to localStorage for offline persistence
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// Initialize data asynchronously
+(async function() {
+  data = await loadData();
+  saveToHistory(); // Save initial state
+  renderAll();
+})();
+
+async function saveData() {
+  persistData();
+
+  // Save to server via API
+  try {
+    const response = await fetch('/api/seating_chart/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data })
+    });
+    
+    if (response.ok) {
+      showToast("Saved ✓  (updated on server)");
+    } else if (response.status === 401) {
+      showToast("Session expired — reload and re-enter the password");
+    } else {
+      showToast("Save failed — check console");
+      console.error('Save failed:', await response.text());
+    }
+  } catch (error) {
+    showToast("Save error — check console");
+    console.error('Save error:', error);
+  }
+}
+function resetData() {
+  if (!confirm("Reset all seats to original assignments?")) return;
+  data = JSON.parse(JSON.stringify(INITIAL));
+  persistData(); renderAll();
+}
+
+// ── LAYOUT ────────────────────────────────────────────────────────────────────
+// Seat diameter = 44px. For 8 seats around a circle, minimum non-overlapping
+// radius = (D/2) / sin(π/8) = 22 / 0.3827 ≈ 57.5. Use rs=68 for breathing room.
+// Full round table footprint from center = rs + D/2 = 68+22 = 90px.
+// Minimum center-to-center between round tables = 2*90 + gap = 220px.
+//
+// Room: 1300 wide, 1020 tall.
+// Columns (centers):  left-round=105, left-long=310, mid-round=570, right-long=830, right-round=1090
+// Rows (centers):     top=200, mid=500, bot=800
+// Long tables: width=90, height=200. Seats on left/right with margin=46 from table edge.
+
+const SD = 44;   // seat diameter
+const SR = 22;   // seat radius
+const RS = 68;   // orbit radius for round table seats (no overlap at 8 seats)
+const RT = 50;   // table circle radius
+
+// Long table dimensions
+const LW = 90, LH = 200;
+
+// Column x-centers
+// Round tables at 105, 570, 1090
+// Long tables centered between: (105+570)/2 = 337.5 and (570+1090)/2 = 830
+const CX = { round_l: 105, long_l: 310, mid: 570, long_r: 830, round_r: 1090 };
+
+// Row y-centers for round tables
+const RY = { top: 200, mid: 500, bot: 800 };
+
+const ROUND_TABLES = [
+  {tnum:1,  cx:CX.round_l, cy:RY.top},
+  {tnum:2,  cx:CX.round_l, cy:RY.mid},
+  {tnum:3,  cx:CX.round_l, cy:RY.bot},
+  {tnum:7,  cx:CX.mid,     cy:RY.top},
+  {tnum:8,  cx:CX.mid,     cy:RY.mid},
+  {tnum:9,  cx:CX.mid,     cy:RY.bot},
+  {tnum:13, cx:CX.round_r, cy:RY.top},
+  {tnum:14, cx:CX.round_r, cy:RY.mid},
+  {tnum:15, cx:CX.round_r, cy:RY.bot},
+];
+
+// Long tables: stacked vertically, touching each other
+// Table 4 top edge at y=100, so it goes 100-300
+// Table 5 starts at 300, goes 300-500
+// Table 6 starts at 500, goes 500-700
+const LONG_TABLES = [
+  {tnum:4,  tx: CX.long_l - LW/2, ty: 100},
+  {tnum:5,  tx: CX.long_l - LW/2, ty: 300},
+  {tnum:6,  tx: CX.long_l - LW/2, ty: 500},
+  {tnum:10, tx: CX.long_r - LW/2, ty: 100},
+  {tnum:11, tx: CX.long_r - LW/2, ty: 300},
+  {tnum:12, tx: CX.long_r - LW/2, ty: 500},
+];
+
+// ── GEOMETRY ─────────────────────────────────────────────────────────────────
+function roundSeatPositions(cx, cy, r, n=8) {
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const a = Math.PI * (-0.5 + i * 2 / n);
+    pts.push({ x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) });
+  }
+  return pts;
+}
+
+function longSeatPositions(tx, ty, tw, th) {
+  // 4 seats on each long side, evenly spaced
+  const pts = [];
+  const step = th / 5;
+  for (let i = 1; i <= 4; i++) {
+    pts.push({ x: tx - SD/2 - 4,      y: ty + i * step }); // left side, just outside table
+  }
+  for (let i = 1; i <= 4; i++) {
+    pts.push({ x: tx + tw + SD/2 + 4, y: ty + i * step }); // right side, just outside table
+  }
+  return pts;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderAll() {
+  const room = document.getElementById("room");
+  room.innerHTML = "";
+  drawRoomDecor(room);
+  ROUND_TABLES.forEach(t => drawRoundTable(room, t));
+  LONG_TABLES.forEach(t  => drawLongTable(room, t));
+  renderSummary();
+}
+
+function label(room, text, x, y, fs, fw, color) {
+  const el = document.createElement("div");
+  el.className = "room-label";
+  el.style.cssText = `left:${x}px;top:${y}px;font-size:${fs}px;font-weight:${fw};color:${color};transform:translateX(-50%)`;
+  el.textContent = text;
+  room.appendChild(el);
+}
+
+function box(room, text, x, y, w, h, bg, border, color, fs=11) {
+  const el = document.createElement("div");
+  el.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px;
+    background:${bg};border:2px solid ${border};border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:${fs}px;font-weight:700;color:${color};pointer-events:none;white-space:nowrap;`;
+  el.textContent = text;
+  room.appendChild(el);
+}
+
+function drawRoomDecor(room) {
+  // Top area labels
+  label(room, "Sweetheart Table",        650, 28,  15, 500, "#2c2c2c");
+  label(room, "DANCE FLOOR", 650, 52,  10, 400, "#6b6b6b");
+
+  // Decorative boxes - minimal cream/beige palette
+  box(room, "Cake",    140, 20, 100, 32, "#fdfcfa", "#d4cfc4", "#6b6b6b");
+  box(room, "DJ",     1060, 20, 60, 32, "#fdfcfa", "#d4cfc4", "#6b6b6b");
+  box(room, "Buffet",  390, 975, 120, 30, "#fdfcfa", "#d4cfc4", "#6b6b6b");
+  box(room, "Sign In", 900, 975, 110, 30, "#fdfcfa", "#d4cfc4", "#6b6b6b");
+}
+
+function drawRoundTable(room, {tnum, cx, cy}) {
+  const tc = document.createElement("div");
+  tc.className = "table-circle draggable";
+  tc.style.cssText = `left:${cx-RT}px;top:${cy-RT}px;width:${RT*2}px;height:${RT*2}px;`;
+  tc.textContent = tnum;
+  tc.draggable = true;
+  tc.dataset.tnum = tnum;
+  
+  // Table drag handlers
+  tc.addEventListener("dragstart", e => {
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("application/x-table", tnum);
+    tc.style.opacity = "0.5";
+  });
+  
+  tc.addEventListener("dragend", e => {
+    tc.style.opacity = "1";
+  });
+  
+  tc.addEventListener("dragover", e => {
+    if (e.dataTransfer.types.includes("application/x-table")) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      tc.style.background = "#e5e1d8";
+    }
+  });
+  
+  tc.addEventListener("dragleave", e => {
+    tc.style.background = "";
+  });
+  
+  tc.addEventListener("drop", e => {
+    if (e.dataTransfer.types.includes("application/x-table")) {
+      e.preventDefault();
+      tc.style.background = "";
+      
+      const sourceTable = parseInt(e.dataTransfer.getData("application/x-table"));
+      const targetTable = parseInt(tc.dataset.tnum);
+      
+      if (sourceTable !== targetTable) {
+        swapTables(sourceTable, targetTable);
+      }
+    }
+  });
+  
+  room.appendChild(tc);
+
+  const names = data[tnum] || Array(8).fill("");
+  roundSeatPositions(cx, cy, RS).forEach((p, i) => {
+    room.appendChild(makeSeat(tnum, i, names[i]||"", p.x - SR, p.y - SR));
+  });
+}
+
+function drawLongTable(room, {tnum, tx, ty}) {
+  const tr = document.createElement("div");
+  tr.className = "table-rect draggable";
+  tr.style.cssText = `left:${tx}px;top:${ty}px;width:${LW}px;height:${LH}px;`;
+  tr.textContent = tnum;
+  tr.draggable = true;
+  tr.dataset.tnum = tnum;
+  
+  // Table drag handlers
+  tr.addEventListener("dragstart", e => {
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("application/x-table", tnum);
+    tr.style.opacity = "0.5";
+  });
+  
+  tr.addEventListener("dragend", e => {
+    tr.style.opacity = "1";
+  });
+  
+  tr.addEventListener("dragover", e => {
+    if (e.dataTransfer.types.includes("application/x-table")) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      tr.style.background = "#e5e1d8";
+    }
+  });
+  
+  tr.addEventListener("dragleave", e => {
+    tr.style.background = "";
+  });
+  
+  tr.addEventListener("drop", e => {
+    if (e.dataTransfer.types.includes("application/x-table")) {
+      e.preventDefault();
+      tr.style.background = "";
+      
+      const sourceTable = parseInt(e.dataTransfer.getData("application/x-table"));
+      const targetTable = parseInt(tr.dataset.tnum);
+      
+      if (sourceTable !== targetTable) {
+        swapTables(sourceTable, targetTable);
+      }
+    }
+  });
+  
+  room.appendChild(tr);
+
+  const names = data[tnum] || Array(8).fill("");
+  longSeatPositions(tx, ty, LW, LH).forEach((p, i) => {
+    room.appendChild(makeSeat(tnum, i, names[i]||"", p.x - SR, p.y - SR));
+  });
+}
+
+function swapTables(table1, table2) {
+  if (!data[table1]) data[table1] = Array(8).fill("");
+  if (!data[table2]) data[table2] = Array(8).fill("");
+  
+  // Swap all 8 seats
+  const temp = [...data[table1]];
+  data[table1] = [...data[table2]];
+  data[table2] = temp;
+  
+  saveToHistory();
+  persistData();
+  renderAll();
+}
+
+function formatName(name) {
+  if (!name || !name.trim()) return "";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0];
+  const first = parts[0];
+  const last  = parts[parts.length - 1];
+  return first + "\n" + last[0].toUpperCase() + ".";
+}
+
+function makeSeat(tnum, idx, name, left, top) {
+  const el = document.createElement("div");
+  el.className = "seat" + (name ? "" : " empty");
+  el.style.cssText = `left:${Math.round(left)}px;top:${Math.round(top)}px`;
+  el.dataset.tnum = tnum;
+  el.dataset.idx  = idx;
+  el.textContent  = formatName(name);
+  el.draggable = true;
+  
+  el.addEventListener("click",       () => selectSeat(tnum, idx, el));
+  el.addEventListener("mouseenter",  e  => showTooltip(e, tnum, idx));
+  el.addEventListener("mouseleave",  hideTooltip);
+  
+  // Drag and drop handlers
+  el.addEventListener("dragstart", e => {
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("application/x-seat", JSON.stringify({ tnum, idx }));
+    el.style.opacity = "0.5";
+  });
+  
+  el.addEventListener("dragend", e => {
+    el.style.opacity = "1";
+  });
+  
+  el.addEventListener("dragover", e => {
+    if (e.dataTransfer.types.includes("application/x-seat")) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      el.style.background = "#e5e1d8";
+    }
+  });
+  
+  el.addEventListener("dragleave", e => {
+    el.style.background = "";
+  });
+  
+  el.addEventListener("drop", e => {
+    if (e.dataTransfer.types.includes("application/x-seat")) {
+      e.preventDefault();
+      el.style.background = "";
+      
+      const source = JSON.parse(e.dataTransfer.getData("application/x-seat"));
+      const target = { tnum: parseInt(el.dataset.tnum), idx: parseInt(el.dataset.idx) };
+      
+      // Swap the names
+      if (!data[source.tnum]) data[source.tnum] = Array(8).fill("");
+      if (!data[target.tnum]) data[target.tnum] = Array(8).fill("");
+      
+      const temp = data[source.tnum][source.idx];
+      data[source.tnum][source.idx] = data[target.tnum][target.idx];
+      data[target.tnum][target.idx] = temp;
+      
+      saveToHistory();
+      persistData();
+      renderAll();
+    }
+  });
+  
+  return el;
+}
+
+// ── SELECTION & EDITING ───────────────────────────────────────────────────────
+function selectSeat(tnum, idx, el) {
+  if (selectedSeat) selectedSeat.el.classList.remove("selected");
+  selectedSeat = {tnum, idx, el};
+  el.classList.add("selected");
+  const name = (data[tnum]||[])[idx] || "";
+  document.getElementById("seat-info").textContent = `Table ${tnum}  ·  Seat ${idx+1}`;
+  const inp = document.getElementById("name-input");
+  inp.value = name; inp.focus(); inp.select();
+}
+
+function applyEdit() {
+  if (!selectedSeat) return;
+  const {tnum, idx, el} = selectedSeat;
+  const name = document.getElementById("name-input").value.trim();
+  if (!data[tnum]) data[tnum] = Array(8).fill("");
+  while (data[tnum].length <= idx) data[tnum].push("");
+  data[tnum][idx] = name;
+  el.textContent = formatName(name);
+  el.classList.toggle("empty", !name);
+  saveToHistory();
+  persistData(); renderSummary();
+}
+
+function clearSeat() {
+  document.getElementById("name-input").value = "";
+  applyEdit();
+}
+
+// ── SUMMARY ───────────────────────────────────────────────────────────────────
+function renderSummary() {
+  const el = document.getElementById("summary");
+  el.innerHTML = "";
+  for (let t = 1; t <= 15; t++) {
+    const names  = data[t] || Array(8).fill("");
+    const filled = names.filter(n => n.trim()).length;
+    const div = document.createElement("div");
+    div.className = "summary-table";
+    div.innerHTML = `<div class="summary-table-title">Table ${t} — ${filled}/8</div>` +
+      names.map((n,i) => `<div class="summary-name${n?'':' empty-slot'}">${i+1}. ${n||'—'}</div>`).join("");
+    div.addEventListener("click", () => {
+      document.querySelector(`.seat[data-tnum="${t}"]`)
+        ?.scrollIntoView({behavior:"smooth", block:"center"});
+    });
+    el.appendChild(div);
+  }
+}
+
+// ── TOOLTIP ───────────────────────────────────────────────────────────────────
+function showTooltip(e, tnum, idx) {
+  const tt = document.getElementById("tooltip");
+  const currentName = (data[tnum] || [])[idx] || "";
+  tt.textContent = `T${tnum} · Seat ${idx+1}${currentName ? "\n"+currentName : " (empty)"}`;
+  tt.style.display = "block";
+}
+function hideTooltip() { document.getElementById("tooltip").style.display = "none"; }
+document.addEventListener("mousemove", e => {
+  const tt = document.getElementById("tooltip");
+  if (tt.style.display === "block") {
+    tt.style.left = (e.clientX+14)+"px";
+    tt.style.top  = (e.clientY-8)+"px";
+  }
+});
+
+// ── EXPORT ────────────────────────────────────────────────────────────────────
+function exportTxt() {
+  let out = "WEDDING SEATING CHART\n"+"=".repeat(40)+"\n\n";
+  for (let t = 1; t <= 15; t++) {
+    out += `TABLE ${t}\n`+"-".repeat(20)+"\n";
+    (data[t]||Array(8).fill("")).forEach((n,i) => out += `  Seat ${i+1}: ${n||"(empty)"}\n`);
+    out += "\n";
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([out],{type:"text/plain"}));
+  a.download = "seating_chart.txt"; a.click();
+}
+
+// ── TOAST & KEYS ─────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.createElement("div");
+  t.style.cssText = "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#27ae60;color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:9999;pointer-events:none";
+  t.textContent = msg; document.body.appendChild(t);
+  setTimeout(() => t.remove(), 1800);
+}
+document.addEventListener("keydown", e => {
+  if (e.key==="Escape" && selectedSeat) {
+    selectedSeat.el.classList.remove("selected");
+    selectedSeat = null;
+    document.getElementById("seat-info").textContent = "Click any seat to edit";
+  }
+  if ((e.metaKey||e.ctrlKey) && e.key==="s") { e.preventDefault(); saveData(); }
+  if ((e.metaKey||e.ctrlKey) && e.key==="z" && !e.shiftKey) { e.preventDefault(); undo(); }
+  if ((e.metaKey||e.ctrlKey) && (e.key==="y" || (e.key==="z" && e.shiftKey))) { e.preventDefault(); redo(); }
+});
+
+renderAll();
+</script>
+
+
+</body></html>

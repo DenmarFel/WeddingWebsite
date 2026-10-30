@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { google } from "googleapis"
+import { isAuthorized } from "@/lib/seating-auth"
 
 async function getGoogleSheetsClient() {
   const auth = new google.auth.GoogleAuth({
@@ -14,7 +15,11 @@ async function getGoogleSheetsClient() {
   return sheets
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
   try {
     const sheets = await getGoogleSheetsClient()
     const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID
