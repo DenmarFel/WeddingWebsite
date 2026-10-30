@@ -45,8 +45,7 @@ export function SilkBackground() {
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    // @ts-ignore - colorSpace property exists but may not be in types
-    renderer.outputColorSpace = "srgb"
+    renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.LinearToneMapping
     renderer.toneMappingExposure = 1.8
     container.appendChild(renderer.domElement)

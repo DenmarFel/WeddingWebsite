@@ -2,11 +2,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import * as THREE from 'three'
 // Import the specific effect you want (e.g., NET, BIRDS, WAVES, FOG)
-// @ts-ignore
+// @ts-expect-error -- vanta ships without type declarations
 import FOG from 'vanta/dist/vanta.fog.min'
 
 export function VantaBackground() {
-  const [vantaEffect, setVantaEffect] = useState<any>(null)
+  const [vantaEffect, setVantaEffect] = useState<{ destroy: () => void } | null>(null)
   const vantaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

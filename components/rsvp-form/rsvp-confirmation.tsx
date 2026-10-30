@@ -70,9 +70,9 @@ export function RsvpConfirmation({ formData, isAttending }: RsvpConfirmationProp
         ) : (
           <>
             <p className="text-lg font-serif text-foreground/70 mb-4">
-              We're sorry you won't be able to make it, but we appreciate you letting us know.
+              We&apos;re sorry you won&apos;t be able to make it, but we appreciate you letting us know.
             </p>
-            <p className="font-serif text-foreground/60">You'll be in our thoughts on our special day.</p>
+            <p className="font-serif text-foreground/60">You&apos;ll be in our thoughts on our special day.</p>
           </>
         )}
 

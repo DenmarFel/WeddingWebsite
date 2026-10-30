@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { searchGuestsByName, formatHouseholdDisplayName } from "@/lib/guest-data"
+import { searchGuestsByName } from "@/lib/guest-data"
 import type { Guest, Household, NameSearchResult } from "./rsvp-types"
 
 interface NameLookupProps {

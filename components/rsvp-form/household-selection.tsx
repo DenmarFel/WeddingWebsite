@@ -87,8 +87,8 @@ export function HouseholdSelection({
         ))}
 
         <div className="text-sm text-muted-foreground bg-blue-50 p-3 rounded-md">
-          <strong>Note:</strong> You can RSVP for your entire household, or uncheck names if you'd prefer 
-          they submit their own responses. Anyone you don't select can still RSVP individually later.
+          <strong>Note:</strong> You can RSVP for your entire household, or uncheck names if you&apos;d prefer 
+          they submit their own responses. Anyone you don&apos;t select can still RSVP individually later.
         </div>
       </div>
 
@@ -108,13 +108,13 @@ export function HouseholdSelection({
         
         {attending === "yes" && (
           <div className="text-sm text-muted-foreground bg-green-50 p-3 rounded-md">
-            Great! We'll ask for individual preferences (dietary restrictions, allergies, etc.) for each person on the next steps.
+            Great! We&apos;ll ask for individual preferences (dietary restrictions, allergies, etc.) for each person on the next steps.
           </div>
         )}
         
         {attending === "no" && (
           <div className="text-sm text-muted-foreground bg-gray-50 p-3 rounded-md">
-            We're sorry you can't make it! You can still leave a message for the couple if you'd like.
+            We&apos;re sorry you can&apos;t make it! You can still leave a message for the couple if you&apos;d like.
           </div>
         )}
       </div>

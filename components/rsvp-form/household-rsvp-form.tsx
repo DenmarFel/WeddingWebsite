@@ -6,7 +6,6 @@ import { HouseholdSelection } from "./household-selection"
 import { IndividualPreferences } from "./individual-preferences"
 import { HouseholdReview } from "./household-review"
 import { RsvpConfirmation } from "./rsvp-confirmation"
-import { getHouseholdGuests } from "@/lib/guest-data"
 import type { Guest, Household, GuestResponse, HouseholdRsvpData } from "./rsvp-types"
 
 type FormStep = "lookup" | "selection" | "preferences" | "review" | "confirmation"

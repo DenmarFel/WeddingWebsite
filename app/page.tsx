@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useSyncExternalStore } from "react"
 import { HeroSection } from "@/components/hero-section"
 import { Navigation } from "@/components/navigation"
 import { OurStorySection } from "@/components/our-story-section"
@@ -16,18 +16,19 @@ import { AudioVisualizer } from "@/components/audio-visualizer"
 import { useAudio } from "@/contexts/audio-context"
 
 export default function WeddingPage() {
-  const [hasEntered, setHasEntered] = useState(false)
+  const [enteredNow, setEnteredNow] = useState(false)
   const { resumeAudio } = useAudio()
 
-  // Skip overlay if user already entered this session
-  useEffect(() => {
-    if (sessionStorage.getItem("hasEntered") === "true") {
-      setHasEntered(true)
-    }
-  }, [])
+  // Skip overlay if user already entered this session (false during SSR to avoid hydration mismatch)
+  const enteredEarlier = useSyncExternalStore(
+    () => () => {},
+    () => sessionStorage.getItem("hasEntered") === "true",
+    () => false
+  )
+  const hasEntered = enteredNow || enteredEarlier
 
   const handleEnter = (soundEnabled: boolean) => {
-    setHasEntered(true)
+    setEnteredNow(true)
     sessionStorage.setItem("hasEntered", "true")
     if (soundEnabled) {
       resumeAudio()

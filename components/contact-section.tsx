@@ -22,7 +22,7 @@ export function ContactSection() {
         <div className="max-w-xl mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-4 ">Message Sent</h2>
           <p className="text-lg font-light text-muted-foreground">
-            Thank you for reaching out. We'll get back to you soon!
+            Thank you for reaching out. We&apos;ll get back to you soon!
           </p>
         </div>
       </section>
@@ -34,7 +34,7 @@ export function ContactSection() {
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-light tracking-wide mb-6  text-balance">
-            Questions? We'd love to hear from you
+            Questions? We&apos;d love to hear from you
           </h2>
           <p className="text-base font-light text-muted-foreground">
             Have questions about the venue, accommodations, or anything else? Drop us a message.

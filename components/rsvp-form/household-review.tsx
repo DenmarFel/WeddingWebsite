@@ -102,7 +102,7 @@ export function HouseholdReview({
           className="mt-1"
         />
         <p className="text-sm text-muted-foreground mt-1">
-          This message will be included with each person's RSVP response.
+          This message will be included with each person&apos;s RSVP response.
         </p>
       </div>
 

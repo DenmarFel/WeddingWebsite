@@ -26,7 +26,7 @@ export function IndividualPreferences({
   const currentGuest = guests[currentGuestIndex]
   const currentResponse = responses[currentGuest.id] || {}
 
-  const updateCurrentResponse = (field: string, value: any) => {
+  const updateCurrentResponse = <K extends keyof GuestResponse>(field: K, value: GuestResponse[K]) => {
     setResponses(prev => ({
       ...prev,
       [currentGuest.id]: {

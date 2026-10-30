@@ -16,13 +16,6 @@ async function getGoogleSheetsClient() {
   return sheets
 }
 
-interface GuestRow {
-  householdId: string
-  guestId: string
-  firstName: string
-  lastName: string
-}
-
 // Cache for guest data (optional - helps with performance)
 let cachedGuestData: { households: Household[]; timestamp: number } | null = null
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes

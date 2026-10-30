@@ -41,7 +41,7 @@ export function DetailsSection() {
           {/* Section 1: Introduction */}
           <header className="space-y-4">
             <p className="text-[0.75rem] uppercase tracking-[0.3em] text-foreground/60 font-medium">
-              Please join Charlene and Denmar as they say "I do" on
+              Please join Charlene and Denmar as they say &quot;I do&quot; on
             </p>
             <h1 className="text-[clamp(2.25rem,6vw,4rem)] font-serif font-normal text-foreground tracking-tight leading-none">
               Saturday, May 30th, 2026

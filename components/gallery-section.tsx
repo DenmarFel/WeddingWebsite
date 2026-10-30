@@ -131,7 +131,7 @@ export function GallerySection() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-12  text-balance">
-            Moments we've captured along the way
+            Moments we&apos;ve captured along the way
           </h2>
 
           <div className="flex flex-wrap justify-center gap-3">
@@ -164,7 +164,7 @@ export function GallerySection() {
         {selectedAlbum === "wedding" && currentImages.length === 0 ? (
           <div className="text-center py-20 max-w-2xl mx-auto">
             <p className="text-3xl md:text-4xl  font-light text-foreground mb-6 italic">
-              The big day hasn't happened yet!
+              The big day hasn&apos;t happened yet!
             </p>
             <p className="text-lg md:text-xl text-foreground/60 font-light leading-relaxed">
               Look sharp on May 30th, 2026 — these photos are waiting to be taken.

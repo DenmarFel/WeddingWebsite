@@ -4,7 +4,6 @@ import { Cormorant_Garamond, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { AudioProvider } from "@/contexts/audio-context"
-import { AudioVisualizer } from "@/components/audio-visualizer"
 import { VantaBackground } from "@/components/VantaBackground"
 import { SilkBackground } from "@/components/SilkBackground"
 

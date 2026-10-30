@@ -41,7 +41,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     audio.volume = 1 
     audioRef.current = audio
 
-    const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const audioCtx = new (window.AudioContext || (window as Window & { webkitAudioContext?: typeof window.AudioContext }).webkitAudioContext!)()
     audioContextRef.current = audioCtx
 
     const source = audioCtx.createMediaElementSource(audio)
